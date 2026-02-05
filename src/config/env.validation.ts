@@ -15,11 +15,12 @@ export function validateEnvironment(): void {
     requiredVars.push(
       'ADMIN_USERNAME',
       'ADMIN_PASSWORD',
-      'SMTP_HOST',
-      'SMTP_PORT',
-      'SMTP_USER',
-      'SMTP_PASSWORD',
-      'CONTACT_EMAIL',
+      // SMTP variables are optional - contact form will be disabled without them
+      // 'SMTP_HOST',
+      // 'SMTP_PORT',
+      // 'SMTP_USER',
+      // 'SMTP_PASSWORD',
+      // 'CONTACT_EMAIL',
     );
   }
 
