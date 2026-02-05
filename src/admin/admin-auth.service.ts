@@ -70,14 +70,22 @@ export class AdminAuthService implements OnModuleInit {
   }
 
   private async ensureDefaultAdmin() {
+    console.log('🔐 Checking for default admin user...');
     const count = await this.adminUserRepository.count();
+    console.log(`📊 Admin user count: ${count}`);
+    
     if (count > 0) {
+      console.log('✅ Admin user already exists');
       return;
     }
 
     const isProd = process.env.NODE_ENV === 'production';
     const username = process.env.ADMIN_USERNAME;
     const password = process.env.ADMIN_PASSWORD;
+    
+    console.log(`🔧 Creating admin user in ${isProd ? 'production' : 'development'} mode`);
+    console.log(`👤 Username: ${username || 'admin'}`);
+    
     if (isProd && (!username || !password)) {
       throw new Error(
         'ADMIN_USERNAME and ADMIN_PASSWORD must be set in production.',
@@ -93,5 +101,6 @@ export class AdminAuthService implements OnModuleInit {
       passwordHash,
     });
     await this.adminUserRepository.save(admin);
+    console.log('✅ Default admin user created successfully!');
   }
 }
