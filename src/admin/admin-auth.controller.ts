@@ -61,13 +61,17 @@ export class AdminAuthController {
     const isSecureRequest =
       req.secure ||
       (req.headers['x-forwarded-proto'] ?? '').toString().includes('https');
+    
+    // Set session cookie with appropriate settings
     res.cookie('admin_session', session.token, {
       httpOnly: true,
-      sameSite: isProd ? 'strict' : 'lax',
-      secure: isProd && isSecureRequest,
+      sameSite: 'lax', // Changed from strict to lax for better compatibility
+      secure: isSecureRequest, // Set secure if HTTPS, regardless of env
       maxAge: SESSION_MAX_AGE_MS,
       path: '/admin',
     });
+    
+    console.log(`Admin login successful - Session: ${session.token.substring(0, 8)}...`);
 
     const acceptsHtml = (req.headers.accept ?? '').includes('text/html');
     if (acceptsHtml) {
