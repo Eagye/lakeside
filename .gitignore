@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database
+*.sqlite
+*.sqlite-journal
+*.db
+*.db-journal
+lakeside.sqlite
+lakeside.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+
+# Testing
+/coverage
+/.nyc_output
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Temp files
+*.tmp
+temp/
+.cache/
+
+# Session files
+sessions/
+*.session

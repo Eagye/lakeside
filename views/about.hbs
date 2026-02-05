@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lakeside - About Us | Professional Farming in Ghana</title>
+    <meta name="description" content="Learn about Lakeside Farms - Your trusted partner in agriculture, livestock, and poultry farming in Accra, Ghana" />
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&family=Pacifico&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page-about" id="top">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">
+          <img
+            class="brand-logo"
+            src="/assets/ll.PNG"
+            alt="Lakeside"
+            width="85"
+            height="85"
+            decoding="async"
+          />
+          <span class="brand-text">Lakeside Farms</span>
+        </a>
+        <nav class="main-nav" aria-label="Primary">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about" class="nav-link active">About</a>
+          <a href="/services" class="nav-link">Services</a>
+          <a href="/contact" class="nav-link">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <button
+            class="icon-btn mobile-toggle"
+            aria-label="Toggle menu"
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+          >
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
+        <a href="/" class="mobile-nav-link">Home</a>
+        <a href="/about" class="mobile-nav-link">About</a>
+        <a href="/services" class="mobile-nav-link">Services</a>
+        <a href="/news" class="mobile-nav-link">News</a>
+        <a href="/contact" class="mobile-nav-link">Contact</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="about-intro">
+        <div class="container about-intro-inner">
+          <div class="about-intro-media">
+            <div class="about-intro-carousel" data-interval="6000">
+              <div class="about-intro-slides">
+                {{#if hasAboutImages}}
+                  {{#each aboutImages}}
+                    <img
+                      class="about-intro-slide"
+                      src="{{this.url}}"
+                      alt="Get to know us {{@index}}"
+                      loading="{{#if @first}}eager{{else}}lazy{{/if}}"
+                      decoding="async"
+                    />
+                  {{/each}}
+              {{/if}}
+              </div>
+              
+              <!-- Accent Image Frame -->
+              <div class="accent-frame-carousel">
+                {{#if hasAccentImages}}
+                  {{#each accentImages}}
+                    <div class="accent-frame {{#if @first}}is-active{{/if}}">
+                      <img src="{{this.imageUrl}}" alt="Farm highlight" loading="lazy" decoding="async" />
+                    </div>
+                  {{/each}}
+                {{else}}
+                  <!-- Placeholder 1: Camera Icon -->
+                  <div class="accent-frame is-active accent-frame-placeholder">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="frameGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" style="stop-color:#6b8e23;stop-opacity:1" />
+                          <stop offset="100%" style="stop-color:#4a8f37;stop-opacity:1" />
+                        </linearGradient>
+                      </defs>
+                      <rect fill="url(#frameGradient1)" width="100" height="100" rx="8"/>
+                      <g fill="white" opacity="0.9">
+                        <path d="M50 30 L50 45 M50 55 L50 70 M30 50 L45 50 M55 50 L70 50" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="50" cy="50" r="15" fill="none" stroke="white" stroke-width="2.5"/>
+                      </g>
+                    </svg>
+                    <div class="accent-frame-hint">Upload images</div>
+                  </div>
+                  <!-- Placeholder 2: Leaf Icon -->
+                  <div class="accent-frame accent-frame-placeholder">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="frameGradient2" x1="0%" y1="100%" x2="100%" y2="0%">
+                          <stop offset="0%" style="stop-color:#4a8f37;stop-opacity:1" />
+                          <stop offset="100%" style="stop-color:#6b8e23;stop-opacity:1" />
+                        </linearGradient>
+                      </defs>
+                      <rect fill="url(#frameGradient2)" width="100" height="100" rx="8"/>
+                      <g fill="white" opacity="0.9">
+                        <path d="M30 70 Q50 30 70 70" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <path d="M50 30 L50 70" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                      </g>
+                    </svg>
+                    <div class="accent-frame-hint">in admin</div>
+                  </div>
+                  <!-- Placeholder 3: Farm Icon -->
+                  <div class="accent-frame accent-frame-placeholder">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="frameGradient3" x1="100%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" style="stop-color:#6b8e23;stop-opacity:1" />
+                          <stop offset="100%" style="stop-color:#4a8f37;stop-opacity:1" />
+                        </linearGradient>
+                      </defs>
+                      <rect fill="url(#frameGradient3)" width="100" height="100" rx="8"/>
+                      <g fill="white" opacity="0.9">
+                        <circle cx="50" cy="50" r="20" fill="none" stroke="white" stroke-width="3"/>
+                        <circle cx="50" cy="50" r="8" fill="white"/>
+                      </g>
+                    </svg>
+                    <div class="accent-frame-hint">panel</div>
+                  </div>
+                {{/if}}
+              </div>
+              
+              <div class="about-intro-controls">
+                {{#if hasAboutImages}}
+                  {{#each aboutImages}}
+                    <button
+                      type="button"
+                      class="about-intro-dot"
+                      data-index="{{@index}}"
+                    ></button>
+                  {{/each}}
+                {{else}}
+                  <button type="button" class="about-intro-dot is-active"></button>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+          <div class="about-intro-content">
+            <p class="section-eyebrow">Get to know us</p>
+            <h2>Lakeside Farms</h2>
+            <p class="about-highlight">
+              Established in November 2020, we are an agriculture and farming
+              enterprise based in Accra, Ghana.
+            </p>
+            <p class="muted">
+              Our work spans crop cultivation, livestock and poultry rearing,
+              animal feed production, and the import and export of agricultural
+              products to support reliable food supply.
+            </p>
+            <ul class="about-checklist">
+              <li>Agri-business across crops, livestock, and poultry</li>
+              <li>Animal feed production and farm input services</li>
+              <li>Serving Greater Accra and beyond from Ofankor</li>
+            </ul>
+            <a class="btn btn-primary" href="/contact">Contact our team</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- about video section removed per request -->
+
+      <!-- stats section removed per request -->
+
+      <!-- testimonials section removed per request -->
+
+      <section class="about-features section">
+        <div class="container about-features-inner">
+          <div class="about-feature-card">
+            <h3>Reliable Crop Production</h3>
+            <p>
+              We cultivate crops with a focus on steady yield, quality control,
+              and dependable supply for local and regional markets.
+            </p>
+            <h3>Livestock & Poultry Care</h3>
+            <p>
+              Our livestock and poultry operations are supported by consistent
+              animal feed production and daily farm care routines.
+            </p>
+            <h3>Agri-Trade & Supply Support</h3>
+            <p>
+              Based in Ofankor, Accra, we support the food supply chain through
+              agricultural trade and distribution across Greater Accra and beyond.
+            </p>
+          </div>
+          <div class="about-feature-side">
+            <p class="section-eyebrow">Why Choose Us</p>
+            <h2>Growing crops, raising livestock, and supplying markets.</h2>
+            <div class="feature-stats">
+              <div>
+                <span class="stat-big">Since 2020</span>
+                <span>Established in Accra, Ghana</span>
+              </div>
+              <div>
+                <span class="stat-big">Multi-Unit</span>
+                <span>Crops, livestock & feed</span>
+              </div>
+            </div>
+            <div class="feature-video" data-feature-carousel data-interval="6000">
+              <div class="feature-slides">
+                {{#if hasFeatureImages}}
+                  {{#each featureImages}}
+                    <img
+                      class="feature-slide"
+                      src="{{this.url}}"
+                      alt="Why choose us {{@index}}"
+                      loading="{{#if @first}}eager{{else}}lazy{{/if}}"
+                      decoding="async"
+                    />
+                  {{/each}}
+              {{/if}}
+              </div>
+              <div class="feature-dots">
+                {{#if hasFeatureImages}}
+                  {{#each featureImages}}
+                    <button
+                      type="button"
+                      class="feature-dot"
+                      data-index="{{@index}}"
+                    ></button>
+                  {{/each}}
+                {{else}}
+                  <button type="button" class="feature-dot is-active"></button>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {{#if hasTeam}}
+      <section class="about-farmers section section-alt">
+        <div class="container">
+          <p class="section-eyebrow center">Team Members</p>
+          <h2 class="center">Meet Our Farmers</h2>
+          <div class="farmers-grid">
+            {{#each team}}
+              <article class="farmer-card">
+                <img
+                  src="{{this.imageUrl}}"
+                  alt="{{this.name}}"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="farmer-info">
+                  <strong>{{this.name}}</strong>
+                  <span>{{this.role}}</span>
+                  <p>{{this.description}}</p>
+                </div>
+              </article>
+            {{/each}}
+          </div>
+        </div>
+      </section>
+      {{/if}}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img
+            src="/assets/ll.PNG"
+            alt="Lakeside"
+            width="180"
+            height="180"
+            loading="lazy"
+            decoding="async"
+          />
+          <p>Lakeside Farm Livestock</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <div class="footer-link-row">
+            <a href="/">Home</a>
+            <a href="/services">Services</a>
+            <a href="/news">News</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p>P.O.BOX 236 OFANKOR-ACCRA | +233543024779 / +233268000341</p>
+          <p>lakesidefarmgh@gmail.com | info@lakesidefarmgh.com</p>
+        </div>
+        <div class="footer-social">
+          <div class="socials">
+            {{#if socialMedia.facebook}}
+              <a href="{{socialMedia.facebook}}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.twitter}}
+              <a href="{{socialMedia.twitter}}" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.instagram}}
+              <a href="{{socialMedia.instagram}}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.linkedin}}
+              <a href="{{socialMedia.linkedin}}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+            {{/if}}
+          </div>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Email Address" aria-label="Email address" />
+            <button aria-label="Subscribe">
+              <img src="/assets/Group - 1/Link - icon.png" alt="" loading="lazy" decoding="async" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">
+          <p>© All Copyright 2020 by Lakeside</p>
+        </div>
+      </div>
+    </footer>
+    <script>
+      // Navbar scroll effect and mobile menu
+      const header = document.querySelector('.site-header');
+      const mobileToggle = document.querySelector('.mobile-toggle');
+      const body = document.body;
+
+      // Add scroll effect
+      let lastScroll = 0;
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        
+        lastScroll = currentScroll;
+      });
+
+      // Mobile menu toggle
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', () => {
+          body.classList.toggle('nav-open');
+        });
+      }
+
+      // Close mobile menu when clicking nav links
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          body.classList.remove('nav-open');
+        });
+      });
+    </script>
+    <script>
+      // Main carousel for overlapping images
+      const carousel = document.querySelector('.about-intro-carousel');
+      if (carousel) {
+        const slides = Array.from(carousel.querySelectorAll('.about-intro-slide'));
+        const dots = Array.from(carousel.querySelectorAll('.about-intro-dot'));
+        const interval = Number(carousel.dataset.interval || 6000);
+        let currentPairIndex = 0;
+        let mainTimer;
+
+        const setActive = (pairIndex) => {
+          // Show pairs of images (2 at a time for overlapping effect)
+          slides.forEach((slide, idx) => {
+            const slideGroup = Math.floor(idx / 2);
+            slide.classList.toggle('is-active', slideGroup === pairIndex);
+          });
+          
+          dots.forEach((dot, idx) => {
+            const dotGroup = Math.floor(idx / 2);
+            dot.classList.toggle('is-active', dotGroup === pairIndex);
+          });
+          
+          currentPairIndex = pairIndex;
+        };
+
+        const startMain = () => {
+          const numPairs = Math.ceil(slides.length / 2);
+          if (numPairs <= 1) {
+            return;
+          }
+          mainTimer = setInterval(() => {
+            setActive((currentPairIndex + 1) % numPairs);
+          }, interval);
+        };
+
+        const stopMain = () => {
+          if (mainTimer) clearInterval(mainTimer);
+        };
+
+        setActive(0);
+        startMain();
+
+        carousel.addEventListener('mouseenter', stopMain);
+        carousel.addEventListener('mouseleave', startMain);
+
+        dots.forEach((dot, dotIndex) => {
+          dot.addEventListener('click', () => {
+            const pairIndex = Math.floor(dotIndex / 2);
+            stopMain();
+            setActive(pairIndex);
+            startMain();
+          });
+        });
+      }
+
+      // Independent accent frame carousel
+      (function() {
+        const accentContainer = document.querySelector('.accent-frame-carousel');
+        if (!accentContainer) return;
+        
+        const accentFrames = Array.from(accentContainer.querySelectorAll('.accent-frame'));
+        console.log('Accent frames found:', accentFrames.length);
+        
+        if (accentFrames.length <= 1) {
+          console.log('Only', accentFrames.length, 'accent frame(s), skipping carousel');
+          return;
+        }
+
+        let currentIndex = 0;
+        const accentInterval = 3000; // 3 seconds
+        
+        const showFrame = (index) => {
+          accentFrames.forEach((frame, idx) => {
+            frame.classList.toggle('is-active', idx === index);
+          });
+          currentIndex = index;
+        };
+
+        // Start cycling
+        showFrame(0);
+        const timer = setInterval(() => {
+          const nextIndex = (currentIndex + 1) % accentFrames.length;
+          showFrame(nextIndex);
+        }, accentInterval);
+
+        console.log('Accent carousel started with', accentFrames.length, 'frames');
+      })();
+    </script>
+    <script>
+      const featureCarousel = document.querySelector('[data-feature-carousel]');
+      if (featureCarousel) {
+        const slides = Array.from(featureCarousel.querySelectorAll('.feature-slide'));
+        const dots = Array.from(featureCarousel.querySelectorAll('.feature-dot'));
+        const interval = Number(featureCarousel.dataset.interval || 6000);
+        let currentIndex = 0;
+        let timer;
+
+        const setActive = (index) => {
+          slides.forEach((slide, idx) => {
+            slide.classList.toggle('is-active', idx === index);
+          });
+          dots.forEach((dot, idx) => {
+            dot.classList.toggle('is-active', idx === index);
+          });
+          currentIndex = index;
+        };
+
+        const start = () => {
+          if (slides.length <= 1) {
+            return;
+          }
+          timer = setInterval(() => {
+            setActive((currentIndex + 1) % slides.length);
+          }, interval);
+        };
+
+        const stop = () => {
+          if (timer) {
+            clearInterval(timer);
+          }
+        };
+
+        setActive(0);
+        start();
+
+        featureCarousel.addEventListener('mouseenter', stop);
+        featureCarousel.addEventListener('mouseleave', start);
+
+        dots.forEach((dot) => {
+          dot.addEventListener('click', () => {
+            const index = Number(dot.dataset.index || 0);
+            stop();
+            setActive(index);
+            start();
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

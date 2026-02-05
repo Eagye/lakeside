@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lakeside - Farming Website</title>
+    <meta name="description" content="Lakeside Farms - Professional agriculture, eco farming, livestock and poultry management in Accra, Ghana" />
+    <meta name="keywords" content="farming, agriculture, livestock, poultry, Ghana, Accra, eco farming" />
+    
+    <!-- Google Analytics -->
+    <!-- Replace 'G-XXXXXXXXXX' with your actual Google Analytics Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&family=Pacifico&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body id="top">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">
+          <img
+            class="brand-logo"
+            src="/assets/ll.PNG"
+            alt="Lakeside"
+            width="85"
+            height="85"
+            decoding="async"
+          />
+          <span class="brand-text">Lakeside Farms</span>
+        </a>
+        <nav class="main-nav" aria-label="Primary">
+          <a href="/" class="nav-link active">Home</a>
+          <a href="/about" class="nav-link">About</a>
+          <a href="/services" class="nav-link">Services</a>
+          <a href="/news" class="nav-link">News</a>
+          <a href="/contact" class="nav-link">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <button
+            class="icon-btn mobile-toggle"
+            aria-label="Toggle menu"
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+          >
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
+        <a href="/" class="mobile-nav-link">Home</a>
+        <a href="/about" class="mobile-nav-link">About</a>
+        <a href="/services" class="mobile-nav-link">Services</a>
+        <a href="/news" class="mobile-nav-link">News</a>
+        <a href="/contact" class="mobile-nav-link">Contact</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="hero-slider" data-interval="8000">
+          {{#if hasHeroImages}}
+            {{#each heroImages}}
+              <img
+                class="hero-slide"
+                src="{{this.url}}"
+                alt="Lakeside farms hero image {{@index}}"
+                loading="{{#if @first}}eager{{else}}lazy{{/if}}"
+                fetchpriority="{{#if @first}}high{{else}}auto{{/if}}"
+                decoding="sync"
+              />
+          {{/each}}
+          {{/if}}
+        </div>
+        <div class="container hero-content">
+          <p class="hero-eyebrow">{{content.home.heroEyebrow}}</p>
+          <h1 class="hero-title">{{content.home.heroTitle}}</h1>
+          <p class="hero-subtitle">{{content.home.heroSubtitle}}</p>
+        </div>
+        <div class="hero-controls">
+          <button class="hero-nav hero-nav-prev" aria-label="Previous slide">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="hero-dots">
+            {{#if hasHeroImages}}
+              {{#each heroImages}}
+                <button class="hero-dot" data-index="{{@index}}" aria-label="Go to slide {{@index}}"></button>
+              {{/each}}
+            {{else}}
+              <button class="hero-dot" data-index="0" aria-label="Go to slide 0"></button>
+            {{/if}}
+          </div>
+          <button class="hero-nav hero-nav-next" aria-label="Next slide">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <section class="about section section-alt">
+        <div class="container about-inner">
+          <div class="about-media">
+            <div class="about-intro-carousel" data-interval="5000">
+              {{#if hasAboutIntroImages}}
+                {{#each aboutIntroImages}}
+                  <div class="about-intro-slide {{#if @first}}is-active{{/if}}">
+                    <img
+                      src="{{this.url}}"
+                      alt="Lakeside farm image {{@index}}"
+                      loading="{{#if @first}}eager{{else}}lazy{{/if}}"
+                      decoding="async"
+                    />
+                  </div>
+              {{/each}}
+            {{/if}}
+              {{#if hasAboutIntroImages}}
+                <div class="about-intro-controls">
+                  <button class="about-intro-nav about-intro-prev" aria-label="Previous">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                  </button>
+                  <div class="about-intro-dots">
+                    {{#each aboutIntroImages}}
+                      <button class="about-intro-dot {{#if @first}}is-active{{/if}}" data-index="{{@index}}" aria-label="Slide {{@index}}"></button>
+                    {{/each}}
+                  </div>
+                  <button class="about-intro-nav about-intro-next" aria-label="Next">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  </button>
+                </div>
+              {{/if}}
+            </div>
+          </div>
+          <div class="about-content">
+            <p class="section-eyebrow">{{content.about.eyebrow}}</p>
+            <h2>{{content.about.title}}</h2>
+            <p class="muted">{{content.about.summary}}</p>
+            <div class="about-list">
+              <div class="about-item">
+                <img src="/assets/Icon.svg" alt="" loading="lazy" decoding="async" />
+                <div>
+                  <h3>Crop farming</h3>
+                  <p>
+                    We cultivate crops with a focus on quality and steady
+                    production for local and regional markets.
+                  </p>
+                </div>
+              </div>
+              <div class="about-item">
+                <img src="/assets/Icon.svg" alt="" loading="lazy" decoding="async" />
+                <div>
+                  <h3>Livestock & poultry</h3>
+                  <p>
+                    We rear healthy livestock and poultry, supported by
+                    dependable animal feed production.
+                  </p>
+                </div>
+              </div>
+              <div class="about-item">
+                <img src="/assets/Icon.svg" alt="" loading="lazy" decoding="async" />
+                <div>
+                  <h3>Vaccination & Fumigation</h3>
+                  <p>
+                    Our animals receive professional veterinary care with timely 
+                    vaccinations against common diseases. We conduct regular fumigation 
+                    of housing facilities to eliminate parasites and pathogens, ensuring 
+                    a healthy, disease-free environment for optimal livestock growth.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <a class="btn btn-primary" href="/about">Discover More</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="offer">
+        <div class="container">
+          <p class="section-eyebrow center">What We Offer</p>
+          <h2 class="center">What We Offer</h2>
+          <div class="offer-grid">
+            {{#if hasOffers}}
+              {{#each offers}}
+                <article class="offer-card" data-offer-card>
+                  <div class="offer-slider" data-interval="5000">
+                    {{#if this.images.length}}
+                      {{#each this.images}}
+                        <img
+                          class="offer-slide"
+                          src="{{this.url}}"
+                          alt="Offer image {{@index}}"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                    {{/each}}
+                  {{/if}}
+                  </div>
+                  <div class="offer-controls">
+                    <div class="offer-dots">
+                      {{#if this.images.length}}
+                        {{#each this.images}}
+                          <button
+                            type="button"
+                            class="offer-dot"
+                            data-index="{{@index}}"
+                          ></button>
+            {{/each}}
+          {{/if}}
+                    </div>
+                  </div>
+                  <div class="offer-label">{{this.label}}</div>
+                </article>
+          {{/each}}
+        {{/if}}
+          </div>
+        </div>
+      </section>
+
+      <!-- stats section removed per request -->
+
+      <section class="video-banner">
+        {{#if hasGreenhouseVideo}}
+          <video
+            id="greenhouseVideo"
+            src="{{greenhouseVideo.url}}"
+            poster="/assets/Frame-1.png"
+            controls
+            controlsList="nodownload"
+            preload="metadata"
+            playsinline
+            style="width: 100%; height: 100%; object-fit: cover;"
+          ></video>
+        {{else}}
+          <img
+            src="/assets/Frame-1.png"
+            alt="Fields and farming operations"
+            loading="lazy"
+            decoding="async"
+          />
+        {{/if}}
+        <div class="container video-content">
+          <h2>Green House</h2>
+          {{#if hasGreenhouseVideo}}
+            <button class="play-btn" id="playVideoBtn" aria-label="Play video">
+              <img src="/assets/Group - 1/Link - icon.png" alt="" loading="lazy" decoding="async" />
+            </button>
+          {{/if}}
+        </div>
+      </section>
+
+      <!-- projects section removed per request -->
+
+      {{#if hasTestimonials}}
+      <section class="testimonial section">
+        <div class="container testimonial-inner">
+          <div>
+            <p class="section-eyebrow">Our Testimonials</p>
+            <h2>What They’re Saying About Lakeside</h2>
+            <p class="muted">
+              Real feedback from clients, partners, and communities we serve.
+            </p>
+          </div>
+          <div class="testimonial-carousel" data-interval="6000">
+            <div class="testimonial-slides">
+              {{#if hasTestimonials}}
+                {{#each testimonials}}
+                  <article class="testimonial-card testimonial-slide">
+                    <div class="testimonial-avatar">
+                      {{#if this.avatarUrl}}
+                        <img
+                          src="{{this.avatarUrl}}"
+                          alt="{{this.name}}"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      {{else}}
+                        <div class="testimonial-initials">{{this.initials}}</div>
+                      {{/if}}
+                    </div>
+                    <p>{{this.quote}}</p>
+                    <div class="testimonial-meta">
+                      <div>
+                        <strong>{{this.name}}</strong>
+                        {{#if this.role}}
+                          <span class="testimonial-role">{{this.role}}</span>
+                        {{/if}}
+                      </div>
+                      <div class="rating">
+                        {{#each this.stars}}
+                          <img src="/assets/Vector.png" alt="" loading="lazy" decoding="async" />
+                        {{/each}}
+                      </div>
+                    </div>
+                  </article>
+                {{/each}}
+              {{else}}
+                <div style="text-align: center; padding: 60px 20px; color: #5a6c7d;">
+                  <p style="font-size: 18px; margin-bottom: 10px; font-weight: 500;">No testimonials yet</p>
+                  <p style="font-size: 14px;">Check back soon to see what our clients say about us!</p>
+                </div>
+              {{/if}}
+            </div>
+            <div class="testimonial-controls">
+              <button type="button" class="testimonial-btn" data-action="prev">
+                ‹
+              </button>
+              <div class="testimonial-dots">
+                {{#if hasTestimonials}}
+                  {{#each testimonials}}
+                    <button
+                      type="button"
+                      class="testimonial-dot"
+                      data-index="{{@index}}"
+                    ></button>
+                  {{/each}}
+                {{else}}
+                  <button type="button" class="testimonial-dot is-active"></button>
+                {{/if}}
+              </div>
+              <button type="button" class="testimonial-btn" data-action="next">
+                ›
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="container testimonial-list" data-testimonial-list>
+          {{#if hasTestimonials}}
+            <div class="testimonial-grid">
+              {{#each testimonials}}
+                <article class="testimonial-card">
+                  <div class="testimonial-avatar">
+                    {{#if this.avatarUrl}}
+                  <img
+                    src="{{this.avatarUrl}}"
+                    alt="{{this.name}}"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                    {{else}}
+                      <div class="testimonial-initials">{{this.initials}}</div>
+                    {{/if}}
+                  </div>
+                  <p>{{this.quote}}</p>
+                  <div class="testimonial-meta">
+                    <div>
+                      <strong>{{this.name}}</strong>
+                      {{#if this.role}}
+                        <span class="testimonial-role">{{this.role}}</span>
+                      {{/if}}
+                    </div>
+                    <div class="rating">
+                      {{#each this.stars}}
+                        <img src="/assets/Vector.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                      {{/each}}
+                    </div>
+                  </div>
+                </article>
+              {{/each}}
+            </div>
+          {{/if}}
+        </div>
+      </section>
+      {{/if}}
+
+      <!-- news section removed per request -->
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img
+            src="/assets/ll.PNG"
+            alt="Lakeside"
+            width="180"
+            height="180"
+            loading="lazy"
+            decoding="async"
+          />
+          <p>Lakeside Farm Livestock</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <div class="footer-link-row">
+            <a href="/about">About</a>
+            <a href="/services">Services</a>
+            <a href="/news">News</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p>P.O.BOX 236 OFANKOR-ACCRA | +233543024779 / +233268000341</p>
+          <p>lakesidefarmgh@gmail.com | info@lakesidefarmgh.com</p>
+        </div>
+        <div class="footer-social">
+          <div class="socials">
+            {{#if socialMedia.facebook}}
+              <a href="{{socialMedia.facebook}}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.twitter}}
+              <a href="{{socialMedia.twitter}}" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.instagram}}
+              <a href="{{socialMedia.instagram}}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.linkedin}}
+              <a href="{{socialMedia.linkedin}}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+            {{/if}}
+          </div>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Email Address" aria-label="Email address" />
+            <button aria-label="Subscribe">
+              <img src="/assets/Group - 1/Link - icon.png" alt="" loading="lazy" decoding="async" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">
+          <p>© All Copyright 2020 by Lakeside</p>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const slider = document.querySelector('.hero-slider');
+      if (slider) {
+        const slides = Array.from(slider.querySelectorAll('.hero-slide'));
+        const dots = Array.from(document.querySelectorAll('.hero-dot'));
+        const prevBtn = document.querySelector('.hero-nav-prev');
+        const nextBtn = document.querySelector('.hero-nav-next');
+        
+        if (slides.length > 0) {
+          let currentIndex = 0;
+          let autoplayTimer = null;
+          const interval = Number(slider.dataset.interval || 8000);
+          
+          const updateVisibleDots = (activeIndex) => {
+            const maxVisibleDots = 3;
+            const totalDots = dots.length;
+            
+            if (totalDots <= maxVisibleDots) {
+              // Show all dots if there are 3 or fewer
+              dots.forEach(dot => dot.style.display = 'block');
+            } else {
+              // Show only 3 dots: previous, current, and next
+              dots.forEach((dot, idx) => {
+                // Show current dot and one on each side
+                if (idx === activeIndex || 
+                    idx === activeIndex - 1 || 
+                    idx === activeIndex + 1) {
+                  dot.style.display = 'block';
+                } else {
+                  dot.style.display = 'none';
+                }
+              });
+            }
+          };
+
+          const setActive = (index) => {
+            slides.forEach((slide, idx) => {
+              slide.classList.toggle('is-active', idx === index);
+            });
+            dots.forEach((dot, idx) => {
+              dot.classList.toggle('is-active', idx === index);
+            });
+            currentIndex = index;
+            updateVisibleDots(index);
+          };
+          
+          const startAutoplay = () => {
+            if (slides.length > 1) {
+              autoplayTimer = setInterval(() => {
+                const nextIndex = (currentIndex + 1) % slides.length;
+                setActive(nextIndex);
+              }, interval);
+            }
+          };
+          
+          const stopAutoplay = () => {
+            if (autoplayTimer) {
+              clearInterval(autoplayTimer);
+              autoplayTimer = null;
+            }
+          };
+          
+          const restartAutoplay = () => {
+            stopAutoplay();
+            startAutoplay();
+          };
+          
+          // Initialize
+          setActive(0);
+          startAutoplay();
+          
+          // Navigation controls
+          if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+              const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+              setActive(prevIndex);
+              restartAutoplay();
+            });
+          }
+          
+          if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+              const nextIndex = (currentIndex + 1) % slides.length;
+              setActive(nextIndex);
+              restartAutoplay();
+            });
+          }
+          
+          // Dot controls
+          dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+              setActive(index);
+              restartAutoplay();
+            });
+          });
+          
+          // Pause on hover
+          const hero = document.querySelector('.hero');
+          if (hero) {
+            hero.addEventListener('mouseenter', stopAutoplay);
+            hero.addEventListener('mouseleave', startAutoplay);
+          }
+        }
+      }
+    </script>
+    <script>
+      document.querySelectorAll('[data-offer-card]').forEach((card) => {
+        const slider = card.querySelector('.offer-slider');
+        if (!slider) {
+          return;
+        }
+        const slides = Array.from(slider.querySelectorAll('.offer-slide'));
+        const dots = Array.from(card.querySelectorAll('.offer-dot'));
+        if (slides.length === 0) {
+          return;
+        }
+        let currentIndex = 0;
+        const setActive = (index) => {
+          slides.forEach((slide, idx) => {
+            slide.classList.toggle('is-active', idx === index);
+          });
+          dots.forEach((dot, idx) => {
+            dot.classList.toggle('is-active', idx === index);
+          });
+          currentIndex = index;
+        };
+        setActive(0);
+        const interval = Number(slider.dataset.interval || 5000);
+        let timer = setInterval(() => {
+          setActive((currentIndex + 1) % slides.length);
+        }, interval);
+
+        card.addEventListener('mouseenter', () => {
+          clearInterval(timer);
+        });
+        card.addEventListener('mouseleave', () => {
+          timer = setInterval(() => {
+            setActive((currentIndex + 1) % slides.length);
+          }, interval);
+        });
+
+        dots.forEach((dot) => {
+          dot.addEventListener('click', () => {
+            const index = Number(dot.dataset.index || 0);
+            clearInterval(timer);
+            setActive(index);
+          });
+        });
+      });
+    </script>
+    <script>
+      const testimonialCarousel = document.querySelector('.testimonial-carousel');
+      if (testimonialCarousel) {
+        const slides = Array.from(
+          testimonialCarousel.querySelectorAll('.testimonial-slide'),
+        );
+        const dots = Array.from(
+          testimonialCarousel.querySelectorAll('.testimonial-dot'),
+        );
+        const prevBtn = testimonialCarousel.querySelector(
+          '[data-action="prev"]',
+        );
+        const nextBtn = testimonialCarousel.querySelector(
+          '[data-action="next"]',
+        );
+        const interval = Number(testimonialCarousel.dataset.interval || 6000);
+        let currentIndex = 0;
+        let timer;
+
+        const setActive = (index) => {
+          slides.forEach((slide, idx) => {
+            slide.classList.toggle('is-active', idx === index);
+          });
+          dots.forEach((dot, idx) => {
+            dot.classList.toggle('is-active', idx === index);
+          });
+          currentIndex = index;
+        };
+
+        const start = () => {
+          if (slides.length <= 1) {
+            return;
+          }
+          timer = setInterval(() => {
+            const next = (currentIndex + 1) % slides.length;
+            setActive(next);
+          }, interval);
+        };
+
+        const stop = () => {
+          if (timer) {
+            clearInterval(timer);
+          }
+        };
+
+        setActive(0);
+        start();
+
+        testimonialCarousel.addEventListener('mouseenter', stop);
+        testimonialCarousel.addEventListener('mouseleave', start);
+
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => {
+            stop();
+            const next =
+              (currentIndex - 1 + slides.length) % slides.length;
+            setActive(next);
+            start();
+          });
+        }
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            stop();
+            const next = (currentIndex + 1) % slides.length;
+            setActive(next);
+            start();
+          });
+        }
+
+        dots.forEach((dot) => {
+          dot.addEventListener('click', () => {
+            const index = Number(dot.dataset.index || 0);
+            stop();
+            setActive(index);
+            start();
+          });
+        });
+      }
+    </script>
+    <script>
+      // About Intro Carousel (Why Choose Us - Circular Images)
+      (function() {
+        const aboutIntroCarousel = document.querySelector('.about-intro-carousel');
+        if (!aboutIntroCarousel) {
+          console.log('❌ About Intro Carousel element not found');
+          return;
+        }
+
+        const slides = Array.from(aboutIntroCarousel.querySelectorAll('.about-intro-slide'));
+        const dots = Array.from(aboutIntroCarousel.querySelectorAll('.about-intro-dot'));
+        const prevBtn = aboutIntroCarousel.querySelector('.about-intro-prev');
+        const nextBtn = aboutIntroCarousel.querySelector('.about-intro-next');
+        const interval = Number(aboutIntroCarousel.dataset.interval || 5000);
+        
+        console.log('🎠 About Intro Carousel:', slides.length, 'slides found');
+        console.log('⬅️ Prev button:', !!prevBtn, '➡️ Next button:', !!nextBtn);
+
+        if (slides.length === 0) {
+          console.error('❌ No slides found!');
+          return;
+        }
+
+        let currentIndex = 0;
+        let timer = null;
+
+        const setActive = (index) => {
+          console.log('Switching to slide', index + 1, 'of', slides.length);
+          slides.forEach((slide, idx) => {
+            if (idx === index) {
+              slide.classList.add('is-active');
+            } else {
+              slide.classList.remove('is-active');
+            }
+          });
+          dots.forEach((dot, idx) => {
+            if (idx === index) {
+              dot.classList.add('is-active');
+            } else {
+              dot.classList.remove('is-active');
+            }
+          });
+          currentIndex = index;
+        };
+
+        const start = () => {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+          if (slides.length <= 1) {
+            console.log('⚠️ Only 1 slide - auto-slide disabled');
+            return;
+          }
+          console.log('▶️ Auto-slide started');
+          timer = setInterval(() => {
+            const next = (currentIndex + 1) % slides.length;
+            setActive(next);
+          }, interval);
+        };
+
+        const stop = () => {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+            console.log('⏸️ Auto-slide stopped');
+          }
+        };
+
+        // Initialize
+        setActive(0);
+        setTimeout(() => {
+          start();
+        }, 500);
+
+        // Hover controls
+        aboutIntroCarousel.addEventListener('mouseenter', stop);
+        aboutIntroCarousel.addEventListener('mouseleave', start);
+
+        // Previous button
+        if (prevBtn) {
+          prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('⬅️ Prev clicked');
+            stop();
+            const next = (currentIndex - 1 + slides.length) % slides.length;
+            setActive(next);
+            start();
+          });
+        }
+
+        // Next button
+        if (nextBtn) {
+          nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('➡️ Next clicked');
+            stop();
+            const next = (currentIndex + 1) % slides.length;
+            setActive(next);
+            start();
+          });
+        }
+
+        // Dot navigation
+        dots.forEach((dot, idx) => {
+          dot.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🔘 Dot', idx + 1, 'clicked');
+            stop();
+            setActive(idx);
+            start();
+          });
+        });
+      })();
+
+      // Greenhouse video play button
+      const playVideoBtn = document.getElementById('playVideoBtn');
+      const greenhouseVideo = document.getElementById('greenhouseVideo');
+      
+      if (playVideoBtn && greenhouseVideo) {
+        console.log('🎬 Greenhouse video initialized');
+        console.log('Video src:', greenhouseVideo.src);
+        console.log('Video readyState:', greenhouseVideo.readyState);
+        
+        // Show play button initially
+        playVideoBtn.style.display = 'flex';
+        
+        // Handle play button click
+        playVideoBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          console.log('▶️ Play button clicked');
+          if (greenhouseVideo.paused) {
+            greenhouseVideo.play().then(() => {
+              console.log('✅ Video playing');
+              playVideoBtn.style.display = 'none';
+            }).catch(err => {
+              console.error('❌ Video play error:', err);
+            });
+          }
+        });
+
+        // Hide play button when video plays
+        greenhouseVideo.addEventListener('play', () => {
+          console.log('▶️ Video play event');
+          playVideoBtn.style.display = 'none';
+        });
+
+        // Show play button when video pauses
+        greenhouseVideo.addEventListener('pause', () => {
+          console.log('⏸️ Video pause event');
+          playVideoBtn.style.display = 'flex';
+        });
+
+        // Show play button when video ends
+        greenhouseVideo.addEventListener('ended', () => {
+          console.log('⏹️ Video ended event');
+          playVideoBtn.style.display = 'flex';
+        });
+
+        // Handle video loading errors
+        greenhouseVideo.addEventListener('error', (e) => {
+          console.error('❌ Video load error:', e);
+          console.error('Error details:', greenhouseVideo.error);
+        });
+
+        // Log when video is ready
+        greenhouseVideo.addEventListener('loadedmetadata', () => {
+          console.log('✅ Video metadata loaded');
+          console.log('Duration:', greenhouseVideo.duration);
+          console.log('Video dimensions:', greenhouseVideo.videoWidth, 'x', greenhouseVideo.videoHeight);
+        });
+      } else {
+        console.log('⚠️ Video elements not found');
+        console.log('Play button:', !!playVideoBtn);
+        console.log('Video element:', !!greenhouseVideo);
+      }
+
+      // Navbar scroll effect and mobile toggle
+      const header = document.querySelector('.site-header');
+      const mobileToggle = document.querySelector('.mobile-toggle');
+      const body = document.body;
+
+      // Add scroll effect
+      let lastScroll = 0;
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        
+        lastScroll = currentScroll;
+      });
+
+      // Mobile menu toggle
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', () => {
+          body.classList.toggle('nav-open');
+        });
+      }
+
+      // Close mobile menu when clicking nav links
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          body.classList.remove('nav-open');
+        });
+      });
+
+      // Set active nav link based on current page
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+          link.classList.add('active');
+        }
+      });
+    </script>
+  </body>
+</html>

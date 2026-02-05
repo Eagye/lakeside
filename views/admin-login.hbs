@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{csrfToken}}" />
+    <title>Admin Login - Lakeside</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&family=Pacifico&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .admin-shell {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f7f4ea;
+        padding: 32px 16px;
+      }
+      body {
+        margin: 0;
+        font-family: "Poppins", Arial, sans-serif;
+        color: #1d1d1b;
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .admin-card {
+        width: 100%;
+        max-width: 420px;
+        background: #fff;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+        border: 1px solid rgba(215, 177, 92, 0.25);
+      }
+      .admin-card h1 {
+        margin: 0 0 8px;
+        font-size: 30px;
+        font-family: "Playfair Display", "Times New Roman", serif;
+      }
+      .admin-card p {
+        margin: 0 0 24px;
+        color: #7a7a7a;
+      }
+      .admin-form label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 12px;
+      }
+      .admin-form input {
+        width: 100%;
+        border: 1px solid #cbd5f5;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 15px;
+      }
+      .admin-form button {
+        margin-top: 18px;
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 14px;
+        background: #4a8f37;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .admin-feedback {
+        margin-top: 16px;
+        font-size: 14px;
+        color: #e11d48;
+        min-height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="admin-shell">
+      <div class="admin-card">
+        <h1>Admin Login</h1>
+        <p>Enter your admin credentials to access the dashboard.</p>
+        <form class="admin-form" id="adminLoginForm" method="POST" action="/admin/login">
+          <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" required />
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required />
+          <button type="submit">Sign in</button>
+        </form>
+        <div class="admin-feedback" id="adminFeedback">
+          {{#if errorMessage}}
+            {{errorMessage}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

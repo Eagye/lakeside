@@ -1,0 +1,2932 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{csrfToken}}" />
+    <title>Admin Dashboard - Lakeside</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&family=Pacifico&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      body {
+        margin: 0;
+        background: #f7f4ea;
+        color: #1d1d1b;
+        font-family: "Poppins", Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      
+      /* Toast Notification System */
+      .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: none;
+      }
+      
+      .toast {
+        background: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 300px;
+        animation: slideIn 0.3s ease;
+        pointer-events: all;
+      }
+      
+      .toast.success {
+        border-left: 4px solid #4a8f37;
+      }
+      
+      .toast.error {
+        border-left: 4px solid #dc3545;
+      }
+      
+      .toast.info {
+        border-left: 4px solid #17a2b8;
+      }
+      
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      .toast-icon {
+        font-size: 20px;
+      }
+      
+      .toast-message {
+        flex: 1;
+        font-size: 14px;
+      }
+      
+      /* Confirmation Modal */
+      .confirm-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99998;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .confirm-modal-content {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        max-width: 400px;
+        width: 90%;
+      }
+      
+      .confirm-modal-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+      
+      .confirm-modal-message {
+        color: #666;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+      
+      .confirm-modal-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+      }
+      
+      .admin-shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 250px 1fr;
+      }
+      .admin-sidebar {
+        background: #1d1d1b;
+        color: #f5f5ef;
+        padding: 32px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+      .admin-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .admin-brand strong {
+        font-size: 20px;
+        color: #fff;
+      }
+      .admin-brand span {
+        font-size: 13px;
+        color: #d7b15c;
+      }
+      .admin-nav {
+        display: grid;
+        gap: 10px;
+      }
+      .admin-nav a {
+        text-decoration: none;
+        color: inherit;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        font-weight: 600;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+      .admin-nav a:hover {
+        background: rgba(255, 255, 255, 0.18);
+        transform: translateY(-1px);
+      }
+      .admin-manager {
+        display: grid;
+        gap: 12px;
+      }
+      .admin-manager h3 {
+        margin: 0;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: #d7b15c;
+      }
+      .admin-manager a {
+        text-decoration: none;
+        color: inherit;
+        padding: 8px 10px 8px 24px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        font-weight: 600;
+        font-size: 13px;
+        transition: background 0.2s ease, transform 0.2s ease;
+        position: relative;
+      }
+      .admin-manager a::before {
+        content: "•";
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #d7b15c;
+        font-size: 18px;
+        line-height: 1;
+      }
+      .admin-manager a:hover {
+        background: rgba(255, 255, 255, 0.16);
+        transform: translateY(-1px);
+      }
+      .admin-manager a.is-active {
+        background: rgba(215, 177, 92, 0.25);
+        color: #fff;
+      }
+      .admin-sidebar-footer {
+        margin-top: auto;
+        display: grid;
+        gap: 12px;
+      }
+      .admin-sidebar-footer button {
+        width: 100%;
+      }
+      .admin-content {
+        padding: 8px 40px 48px;
+        display: grid;
+        gap: 12px;
+      }
+      .admin-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 8px;
+      }
+      .admin-title h1 {
+        margin: 0;
+        font-size: 26px;
+        color: #1d1d1b;
+        font-family: "Playfair Display", "Times New Roman", serif;
+        letter-spacing: 0.01em;
+      }
+      .admin-title p {
+        margin: 4px 0 0;
+        color: #6b6b6b;
+        font-size: 13px;
+      }
+      .admin-top-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      #contentUpdatedAt {
+        font-size: 13px;
+        color: #7a7a7a;
+        background: #fff;
+        border: 1px solid #e3dfd3;
+        padding: 6px 12px;
+        border-radius: 999px;
+      }
+      .admin-btn {
+        border: none;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .admin-btn.primary {
+        background: #4a8f37;
+        color: #fff;
+      }
+      .admin-btn.ghost {
+        background: #e2e8f0;
+        color: #0f172a;
+      }
+      .admin-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .admin-card:not(.is-hidden) {
+        animation: panelFade 0.35s ease;
+      }
+      .admin-card:not(.is-hidden):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+      }
+      .admin-card.is-hidden {
+        display: none;
+      }
+      .admin-collapsible {
+        overflow: hidden;
+      }
+      .admin-collapsible.is-collapsed .admin-collapsible-body {
+        max-height: 0;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .admin-collapsible-body {
+        transition: max-height 0.35s ease, opacity 0.35s ease;
+        max-height: 1000px;
+        opacity: 1;
+      }
+      .admin-collapsible-toggle {
+        border: 0;
+        background: none;
+        color: #4a8f37;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 6px 0;
+      }
+      .admin-images-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .admin-images-header h2 {
+        margin: 0 0 6px;
+      }
+      .admin-image-meta {
+        margin-top: 8px;
+        color: #64748b;
+        font-size: 13px;
+      }
+      .admin-image-grid {
+        margin-top: 20px;
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      }
+      .admin-image-card {
+        background: #f8fafc;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        display: grid;
+        gap: 8px;
+        padding-bottom: 12px;
+      }
+      .admin-image-card img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+      }
+      .admin-image-card button {
+        margin: 0 12px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 0;
+        background: #ef4444;
+        color: #fff;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .admin-offer-card {
+        border: 1px solid #e3dfd3;
+        border-radius: 14px;
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+        background: #fff;
+      }
+      .admin-offer-card h3 {
+        margin: 0;
+        font-size: 18px;
+        font-family: "Playfair Display", "Times New Roman", serif;
+      }
+      .admin-offer-grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .admin-offer-images {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      }
+      .admin-offer-images img {
+        width: 100%;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+      }
+      .admin-offer-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .admin-testimonial-card {
+        border: 1px solid #e3dfd3;
+        border-radius: 14px;
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+        background: #fff;
+      }
+      .admin-testimonial-grid {
+        display: grid;
+        gap: 16px;
+      }
+      .admin-team-grid {
+        display: grid;
+        gap: 16px;
+      }
+      .admin-news-grid {
+        display: grid;
+        gap: 16px;
+      }
+      .admin-service-grid {
+        display: grid;
+        gap: 16px;
+      }
+      .admin-service-card {
+        border: 1px solid #e3dfd3;
+        border-radius: 14px;
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+        background: #fff;
+      }
+      .admin-service-products {
+        display: grid;
+        gap: 10px;
+      }
+      .admin-service-product {
+        border: 1px dashed #e2e8f0;
+        border-radius: 12px;
+        padding: 12px;
+        display: grid;
+        gap: 8px;
+      }
+      .admin-about-images {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+      .admin-feature-images {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+      .admin-testimonial-avatar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .admin-testimonial-avatar img,
+      .admin-testimonial-placeholder {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #d7b15c;
+      }
+      .admin-testimonial-placeholder {
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        background: #f7f4ea;
+      }
+      .admin-form {
+        display: grid;
+        gap: 20px;
+      }
+      .admin-section {
+        display: grid;
+        gap: 16px;
+        padding: 20px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+      }
+      .admin-section h2 {
+        margin: 0;
+        font-size: 20px;
+        color: #1d1d1b;
+        font-family: "Playfair Display", "Times New Roman", serif;
+      }
+      .admin-grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .admin-field label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 8px;
+        color: #1d1d1b;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 12px;
+      }
+      .admin-field input,
+      .admin-field textarea {
+        width: 100%;
+        border: 1px solid #cbd5f5;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 15px;
+        font-family: inherit;
+        background: #fff;
+      }
+      .admin-field textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .admin-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .admin-status {
+        font-size: 14px;
+        color: #16a34a;
+        min-height: 18px;
+      }
+      .admin-status.error {
+        color: #e11d48;
+      }
+
+      /* Dashboard Statistics */
+      .dashboard-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+        margin-top: -16px;
+      }
+      .stat-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+      }
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+      .stat-card-primary {
+        border-left-color: #4a8f37;
+      }
+      .stat-card-primary .stat-icon {
+        background: linear-gradient(135deg, #4a8f37 0%, #6ba548 100%);
+      }
+      .stat-card-success {
+        border-left-color: #059669;
+      }
+      .stat-card-success .stat-icon {
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      }
+      .stat-card-warning {
+        border-left-color: #d97706;
+      }
+      .stat-card-warning .stat-icon {
+        background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+      }
+      .stat-card-info {
+        border-left-color: #0284c7;
+      }
+      .stat-card-info .stat-icon {
+        background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+      }
+      .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .stat-icon svg {
+        width: 26px;
+        height: 26px;
+      }
+      .stat-icon svg {
+        stroke: #ffffff;
+      }
+      .stat-content {
+        flex: 1;
+      }
+      .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0 0 2px 0;
+        color: #1d1d1b;
+        font-family: "Playfair Display", serif;
+      }
+      .stat-label {
+        font-size: 13px;
+        color: #6b6b6b;
+        margin: 0;
+        font-weight: 500;
+      }
+
+      /* Search and Filter */
+      .admin-search-bar {
+        margin-bottom: 20px;
+        position: relative;
+      }
+      .admin-search-input {
+        width: 100%;
+        padding: 12px 16px 12px 44px;
+        border: 2px solid #e3dfd3;
+        border-radius: 10px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+      }
+      .admin-search-input:focus {
+        outline: none;
+        border-color: #4a8f37;
+        box-shadow: 0 0 0 3px rgba(74, 143, 55, 0.1);
+      }
+      .admin-search-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6b6b6b;
+      }
+
+      @media (max-width: 960px) {
+        .admin-shell {
+          grid-template-columns: 1fr;
+        }
+        .admin-sidebar {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .admin-nav {
+          grid-auto-flow: column;
+          overflow-x: auto;
+        }
+      }
+      @media (max-width: 720px) {
+        .admin-content {
+          padding: 24px;
+        }
+        .admin-grid {
+          grid-template-columns: 1fr;
+        }
+        .dashboard-stats-grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .stat-card {
+          padding: 20px;
+        }
+        .stat-value {
+          font-size: 28px;
+        }
+        .stat-icon {
+          width: 56px;
+          height: 56px;
+        }
+        .admin-topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+      @keyframes panelFade {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+    
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div class="admin-brand">
+          <strong>Lakeside Admin</strong>
+          <span>Content management</span>
+        </div>
+        <nav class="admin-nav">
+          <a href="/admin">Dashboard</a>
+          <a href="/admin/content" target="_blank" rel="noreferrer">Content JSON</a>
+          <a href="/">Main site</a>
+        </nav>
+        <div class="admin-manager">
+          <h3>Content Manager</h3>
+          <a href="#hero-images-panel" data-scroll="hero-images">Hero Images</a>
+          <a href="#about-images-panel" data-scroll="about-images">Get To Know Us</a>
+          <a href="#about-intro-images-panel" data-scroll="about-intro-images">Why Choose Us - Circular Images</a>
+          <a href="#about-accent-images-panel" data-scroll="about-accent-images">Accent Frame Images</a>
+          <a href="#feature-images-panel" data-scroll="feature-images">Why Choose Us</a>
+          <a href="#greenhouse-video-panel" data-scroll="greenhouse-video">Green House Video</a>
+          <a href="#services-content-panel" data-scroll="services">Services</a>
+          <a href="#offer-content-panel" data-scroll="offer-content">What We Offer</a>
+          <a href="#testimonial-content-panel" data-scroll="testimonials">Testimonials</a>
+          <a href="#team-content-panel" data-scroll="team">Meet the Team</a>
+          <a href="#news-content-panel" data-scroll="news">News & Updates</a>
+          <a href="#hero-content-panel" data-scroll="hero-content">Hero Content</a>
+          <a href="#about-content-panel" data-scroll="about-content">About Content</a>
+        </div>
+        <div class="admin-sidebar-footer">
+          <button type="button" id="logoutBtn" class="admin-btn ghost">
+            Log out
+          </button>
+        </div>
+      </aside>
+      <main class="admin-content">
+        <div class="admin-topbar">
+          <div class="admin-title">
+            <h1>Admin Dashboard</h1>
+            <p>Update the hero and about content that appears on the main site.</p>
+          </div>
+          <div class="admin-top-actions">
+            <span id="contentUpdatedAt"></span>
+          </div>
+        </div>
+
+        <!-- Dashboard Overview Statistics -->
+        <div class="dashboard-stats-grid">
+          <div class="stat-card stat-card-primary">
+            <div class="stat-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-value" id="stat-hero-images">--</h3>
+              <p class="stat-label">Hero Images</p>
+            </div>
+          </div>
+
+          <div class="stat-card stat-card-success">
+            <div class="stat-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-value" id="stat-team-members">--</h3>
+              <p class="stat-label">Team Members</p>
+            </div>
+          </div>
+
+          <div class="stat-card stat-card-warning">
+            <div class="stat-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-value" id="stat-services">--</h3>
+              <p class="stat-label">Services</p>
+            </div>
+          </div>
+
+          <div class="stat-card stat-card-success">
+            <div class="stat-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2.5 2.5 0 00-2.5-2.5H17"></path>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-value" id="stat-news">--</h3>
+              <p class="stat-label">News Articles</p>
+            </div>
+          </div>
+
+          <div class="stat-card stat-card-info">
+            <div class="stat-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-value" id="stat-testimonials">--</h3>
+              <p class="stat-label">Testimonials</p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="admin-card admin-collapsible is-hidden"
+          id="hero-images-panel"
+          data-panel="hero-images"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>Hero Slider Images</h2>
+              <p>Upload up to 50 images. Images expire after 30 days.</p>
+              <button type="button" class="admin-collapsible-toggle" id="heroImagesToggle">
+                Collapse
+              </button>
+            </div>
+            <div class="admin-top-actions">
+              <input
+                id="heroImagesInput"
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+              />
+              <button type="button" id="uploadImagesBtn" class="admin-btn primary">
+                Upload images
+              </button>
+            </div>
+          </div>
+          <div class="admin-collapsible-body" id="heroImagesBody">
+            <div class="admin-image-meta" id="heroImageMeta"></div>
+            <div class="admin-image-grid" id="heroImageGrid"></div>
+          </div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="about-images-panel"
+          data-panel="about-images"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>Get To Know Us</h2>
+              <p>Upload up to 10 images for the About carousel.</p>
+            </div>
+            <div class="admin-top-actions">
+              <input
+                id="aboutImagesInput"
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+              />
+              <button type="button" id="uploadAboutImagesBtn" class="admin-btn primary">
+                Upload images
+              </button>
+            </div>
+          </div>
+          <div class="admin-image-meta" id="aboutImageMeta"></div>
+          <div class="admin-about-images" id="aboutImagesGrid"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="about-intro-images-panel"
+          data-panel="about-intro-images"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>Why Choose Us - Circular Images</h2>
+              <p>Upload up to 10 images for the circular carousel.</p>
+            </div>
+            <div class="admin-top-actions">
+              <input
+                id="aboutIntroImagesInput"
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+              />
+              <button type="button" id="uploadAboutIntroImagesBtn" class="admin-btn primary">
+                Upload images
+              </button>
+            </div>
+          </div>
+          <div class="admin-image-meta" id="aboutIntroImageMeta"></div>
+          <div class="admin-about-images" id="aboutIntroImagesGrid"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="feature-images-panel"
+          data-panel="feature-images"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>Why Choose Us</h2>
+              <p>Upload up to 10 images for the carousel.</p>
+            </div>
+            <div class="admin-top-actions">
+              <input
+                id="featureImagesInput"
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+              />
+              <button type="button" id="uploadFeatureImagesBtn" class="admin-btn primary">
+                Upload images
+              </button>
+            </div>
+          </div>
+          <div class="admin-image-meta" id="featureImageMeta"></div>
+          <div class="admin-feature-images" id="featureImagesGrid"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="greenhouse-video-panel"
+          data-panel="greenhouse-video"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>Green House Video</h2>
+              <p>Upload a video to display in the Green House section. Max size: 100MB.</p>
+            </div>
+            <div class="admin-top-actions">
+              <input
+                id="greenhouseVideoInput"
+                type="file"
+                accept="video/*"
+                hidden
+              />
+              <button type="button" id="uploadGreenhouseVideoBtn" class="admin-btn primary">
+                Upload video
+              </button>
+            </div>
+          </div>
+          <div class="admin-image-meta" id="greenhouseVideoMeta"></div>
+          <div id="greenhouseVideoDisplay"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="about-accent-images-panel"
+          data-panel="about-accent-images"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>Accent Frame Images</h2>
+              <p>Upload small images to display in the beautiful frame on the "Get to Know Us" section. Recommended size: 200x200px.</p>
+            </div>
+            <div class="admin-top-actions">
+              <input
+                id="accentImageInput"
+                type="file"
+                accept="image/*"
+                hidden
+                multiple
+              />
+              <button type="button" id="uploadAccentImageBtn" class="admin-btn primary">
+                Upload images
+              </button>
+            </div>
+          </div>
+          <div class="admin-image-meta" id="accentImageMeta"></div>
+          <div class="admin-simple-grid" id="accentImagesGrid"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="services-content-panel"
+          data-panel="services"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>Services</h2>
+              <p>Manage service categories and products.</p>
+            </div>
+            <div class="admin-top-actions">
+              <button type="button" class="admin-btn primary" id="addServiceCategoryBtn">
+                Add category
+              </button>
+            </div>
+          </div>
+          <div class="admin-service-grid" id="servicesGrid"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="offer-content-panel"
+          data-panel="offer-content"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>What We Offer</h2>
+              <p>Manage 4 cards. Upload up to 10 images per card.</p>
+            </div>
+          </div>
+          <div class="admin-offer-grid" id="offerGrid"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="testimonial-content-panel"
+          data-panel="testimonials"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>Testimonials</h2>
+              <p>Manage up to 10 testimonials shown on the homepage.</p>
+            </div>
+            <div class="admin-top-actions">
+              <button type="button" class="admin-btn primary" id="addTestimonialBtn">
+                Add testimonial
+              </button>
+            </div>
+          </div>
+          <div class="admin-testimonial-grid" id="testimonialGrid"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="team-content-panel"
+          data-panel="team"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>Meet the Team</h2>
+              <p>Create, update, or delete team members.</p>
+            </div>
+            <div class="admin-top-actions">
+              <button type="button" class="admin-btn primary" id="addTeamMemberBtn">
+                Add member
+              </button>
+            </div>
+          </div>
+          <div class="admin-team-grid" id="teamGrid"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="news-content-panel"
+          data-panel="news"
+        >
+          <div class="admin-images-header">
+            <div>
+              <h2>News & Updates</h2>
+              <p>Create, update, or delete news articles with multiple images.</p>
+            </div>
+            <div class="admin-top-actions">
+              <button type="button" class="admin-btn primary" id="addNewsBtn">
+                Add News Article
+              </button>
+            </div>
+          </div>
+          <div class="admin-news-grid" id="newsGrid"></div>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="hero-content-panel"
+          data-panel="hero-content"
+        >
+          <form class="admin-form" id="heroContentForm">
+            <section class="admin-section" id="hero-content">
+              <h2>Hero Section</h2>
+              <div class="admin-grid">
+                <div class="admin-field">
+                  <label for="heroEyebrow">Hero eyebrow</label>
+                  <input id="heroEyebrow" name="heroEyebrow" type="text" />
+                </div>
+                <div class="admin-field">
+                  <label for="heroTitle">Hero title</label>
+                  <input id="heroTitle" name="heroTitle" type="text" />
+                </div>
+              </div>
+              <div class="admin-field">
+                <label for="heroSubtitle">Hero subtitle</label>
+                <textarea id="heroSubtitle" name="heroSubtitle"></textarea>
+              </div>
+              <div class="admin-field">
+                <label for="heroCta">Hero button text</label>
+                <input id="heroCta" name="heroCta" type="text" />
+              </div>
+            </section>
+            <div class="admin-footer">
+              <div class="admin-status" id="heroStatus"></div>
+              <div class="admin-top-actions">
+                <button type="submit" class="admin-btn primary">Save hero</button>
+                <a href="/" class="admin-btn ghost">Preview site</a>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div
+          class="admin-card is-hidden"
+          id="about-content-panel"
+          data-panel="about-content"
+        >
+          <form class="admin-form" id="aboutContentForm">
+            <section class="admin-section" id="about-content">
+              <h2>About Section</h2>
+              <div class="admin-grid">
+                <div class="admin-field">
+                  <label for="aboutEyebrow">About eyebrow</label>
+                  <input id="aboutEyebrow" name="aboutEyebrow" type="text" />
+                </div>
+                <div class="admin-field">
+                  <label for="aboutTitle">About title</label>
+                  <input id="aboutTitle" name="aboutTitle" type="text" />
+                </div>
+              </div>
+              <div class="admin-field">
+                <label for="aboutSummary">About summary</label>
+                <textarea id="aboutSummary" name="aboutSummary"></textarea>
+              </div>
+            </section>
+            <div class="admin-footer">
+              <div class="admin-status" id="aboutStatus"></div>
+              <div class="admin-top-actions">
+                <button type="submit" class="admin-btn primary">Save about</button>
+                <a href="/" class="admin-btn ghost">Preview site</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+    <script>
+      // Toast Notification System
+      function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
+        toast.innerHTML = `
+          <div class="toast-icon">${icon}</div>
+          <div class="toast-message">${message}</div>
+        `;
+        
+        container.appendChild(toast);
+        
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(400px)';
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+      
+      // Confirmation Dialog
+      function showConfirm(message, title = 'Confirm Action') {
+        return new Promise((resolve) => {
+          const modal = document.createElement('div');
+          modal.className = 'confirm-modal';
+          modal.innerHTML = `
+            <div class="confirm-modal-content">
+              <div class="confirm-modal-title">${title}</div>
+              <div class="confirm-modal-message">${message}</div>
+              <div class="confirm-modal-actions">
+                <button type="button" class="admin-btn ghost" data-action="cancel">Cancel</button>
+                <button type="button" class="admin-btn danger" data-action="confirm">Confirm</button>
+              </div>
+            </div>
+          `;
+          
+          document.body.appendChild(modal);
+          
+          modal.addEventListener('click', (e) => {
+            if (e.target.dataset.action === 'confirm') {
+              resolve(true);
+              modal.remove();
+            } else if (e.target.dataset.action === 'cancel' || e.target === modal) {
+              resolve(false);
+              modal.remove();
+            }
+          });
+        });
+      }
+      
+      const heroForm = document.getElementById('heroContentForm');
+      const aboutForm = document.getElementById('aboutContentForm');
+      const heroStatus = document.getElementById('heroStatus');
+      const aboutStatus = document.getElementById('aboutStatus');
+      const contentUpdatedAt = document.getElementById('contentUpdatedAt');
+      const offerGrid = document.getElementById('offerGrid');
+      const testimonialGrid = document.getElementById('testimonialGrid');
+      const addTestimonialBtn = document.getElementById('addTestimonialBtn');
+      const teamGrid = document.getElementById('teamGrid');
+      const addTeamMemberBtn = document.getElementById('addTeamMemberBtn');
+      const addNewsBtn = document.getElementById('addNewsBtn');
+      const newsGrid = document.getElementById('newsGrid');
+      const aboutImagesGrid = document.getElementById('aboutImagesGrid');
+      const aboutImageMeta = document.getElementById('aboutImageMeta');
+      const uploadAboutImagesBtn = document.getElementById('uploadAboutImagesBtn');
+      const aboutImagesInput = document.getElementById('aboutImagesInput');
+      const aboutIntroImagesGrid = document.getElementById('aboutIntroImagesGrid');
+      const aboutIntroImageMeta = document.getElementById('aboutIntroImageMeta');
+      const uploadAboutIntroImagesBtn = document.getElementById('uploadAboutIntroImagesBtn');
+      const aboutIntroImagesInput = document.getElementById('aboutIntroImagesInput');
+      const accentImageInput = document.getElementById('accentImageInput');
+      const uploadAccentImageBtn = document.getElementById('uploadAccentImageBtn');
+      const accentImagesGrid = document.getElementById('accentImagesGrid');
+      const accentImageMeta = document.getElementById('accentImageMeta');
+      const greenhouseVideoDisplay = document.getElementById('greenhouseVideoDisplay');
+      const greenhouseVideoMeta = document.getElementById('greenhouseVideoMeta');
+      const uploadGreenhouseVideoBtn = document.getElementById('uploadGreenhouseVideoBtn');
+      const greenhouseVideoInput = document.getElementById('greenhouseVideoInput');
+      const featureImagesGrid = document.getElementById('featureImagesGrid');
+      const featureImageMeta = document.getElementById('featureImageMeta');
+      const uploadFeatureImagesBtn = document.getElementById('uploadFeatureImagesBtn');
+      const featureImagesInput = document.getElementById('featureImagesInput');
+      const servicesGrid = document.getElementById('servicesGrid');
+      const addServiceCategoryBtn = document.getElementById('addServiceCategoryBtn');
+      const heroImageGrid = document.getElementById('heroImageGrid');
+      const heroImageMeta = document.getElementById('heroImageMeta');
+      const uploadImagesBtn = document.getElementById('uploadImagesBtn');
+      const heroImagesInput = document.getElementById('heroImagesInput');
+      const heroImagesPanel = document.getElementById('hero-images-panel');
+      const heroImagesToggle = document.getElementById('heroImagesToggle');
+      const heroImagesBody = document.getElementById('heroImagesBody');
+      let collapseTimer;
+      const csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        ?.getAttribute('content');
+      const originalFetch = window.fetch.bind(window);
+      function withCredentials(init) {
+        return {
+          credentials: init.credentials ?? 'same-origin',
+          ...init,
+        };
+      }
+      window.fetch = (input, init = {}) => {
+        const baseInit = withCredentials(init);
+        if (!csrfToken) {
+          return originalFetch(input, baseInit);
+        }
+        const method = (baseInit.method ?? 'GET').toUpperCase();
+        if (['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+          return originalFetch(input, baseInit);
+        }
+        const headers = {
+          ...(baseInit.headers || {}),
+          'X-CSRF-Token': csrfToken,
+        };
+        return originalFetch(input, { ...baseInit, headers });
+      };
+      const panels = Array.from(document.querySelectorAll('[data-panel]'));
+      const managerLinks = Array.from(document.querySelectorAll('[data-scroll]'));
+      contentUpdatedAt.textContent = '';
+
+      function setStatus(target, message, isError = false) {
+        target.textContent = message;
+        target.classList.toggle('error', isError);
+      }
+
+      async function loadContent() {
+        try {
+          const response = await fetch('/admin/content');
+          if (!response.ok) {
+            throw new Error('Failed to load content');
+          }
+          const data = await response.json();
+          document.getElementById('heroEyebrow').value =
+            data.home?.heroEyebrow ?? '';
+          document.getElementById('heroTitle').value =
+            data.home?.heroTitle ?? '';
+          document.getElementById('heroSubtitle').value =
+            data.home?.heroSubtitle ?? '';
+          document.getElementById('heroCta').value = data.home?.heroCta ?? '';
+          document.getElementById('aboutEyebrow').value =
+            data.about?.eyebrow ?? '';
+          document.getElementById('aboutTitle').value =
+            data.about?.title ?? '';
+          document.getElementById('aboutSummary').value =
+            data.about?.summary ?? '';
+          contentUpdatedAt.textContent = data.updatedAt
+            ? `Last updated: ${new Date(data.updatedAt).toLocaleString()}`
+            : 'Last updated: —';
+        } catch (error) {
+          setStatus(heroStatus, 'Unable to load content.', true);
+          setStatus(aboutStatus, 'Unable to load content.', true);
+          contentUpdatedAt.textContent = 'Last updated: —';
+        }
+      }
+
+      // Load Dashboard Statistics
+      async function loadDashboardStats() {
+        try {
+          // Fetch all data in parallel
+          const [heroRes, teamRes, testimonialsRes, servicesRes] = await Promise.all([
+            fetch('/admin/hero-images'),
+            fetch('/admin/team'),
+            fetch('/admin/testimonials'),
+            fetch('/admin/services/categories')
+          ]);
+
+          const heroImages = await heroRes.json();
+          const teamMembers = await teamRes.json();
+          const testimonials = await testimonialsRes.json();
+          const services = await servicesRes.json();
+
+          // Update stat cards with animation
+          updateStatCard('stat-hero-images', heroImages.length || 0);
+          updateStatCard('stat-team-members', teamMembers.length || 0);
+          updateStatCard('stat-testimonials', testimonials.length || 0);
+          updateStatCard('stat-services', services.length || 0);
+          
+          // Load news stats separately to avoid breaking dashboard if it fails
+          try {
+            const news = await fetch('/admin/news').then(r => r.json());
+            updateStatCard('stat-news', news.length || 0);
+          } catch (newsError) {
+            console.error('Error loading news stats:', newsError);
+            updateStatCard('stat-news', 0);
+          }
+        } catch (error) {
+          console.error('Error loading dashboard stats:', error);
+          // Set default values on error
+          document.getElementById('stat-hero-images').textContent = '0';
+          document.getElementById('stat-team-members').textContent = '0';
+          document.getElementById('stat-testimonials').textContent = '0';
+          document.getElementById('stat-services').textContent = '0';
+          document.getElementById('stat-news').textContent = '0';
+        }
+      }
+
+      function updateStatCard(elementId, value) {
+        const element = document.getElementById(elementId);
+        // Animate number count-up
+        const duration = 800;
+        const steps = 20;
+        const increment = value / steps;
+        let current = 0;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= value) {
+            element.textContent = value;
+            clearInterval(timer);
+          } else {
+            element.textContent = Math.floor(current);
+          }
+        }, duration / steps);
+      }
+
+      async function loadHeroImages() {
+        try {
+          const response = await fetch('/admin/hero-images');
+          if (!response.ok) {
+            throw new Error('Failed to load images');
+          }
+          const images = await response.json();
+          heroImageMeta.textContent = `${images.length} / 50 images in rotation`;
+          heroImageGrid.innerHTML = images
+            .map(
+              (image) => `
+              <div class="admin-image-card">
+                <img src="${image.url}" alt="Hero image ${image.id}" />
+                <button type="button" data-id="${image.id}">Delete</button>
+              </div>
+            `,
+            )
+            .join('');
+        } catch (error) {
+          heroImageMeta.textContent = 'Unable to load hero images.';
+        }
+      }
+
+      async function loadAccentImages() {
+        try {
+          const response = await fetch('/admin/about-accent-images');
+          if (!response.ok) {
+            throw new Error('Failed to load images');
+          }
+          const images = await response.json();
+          accentImageMeta.textContent = `${images.length} images in frame`;
+          accentImagesGrid.innerHTML = images
+            .map(
+              (image) => `
+              <div class="admin-image-card">
+                <img src="${image.imageUrl}" alt="Accent image ${image.id}" />
+                <button type="button" data-id="${image.id}">Delete</button>
+              </div>
+            `,
+            )
+            .join('');
+        } catch (error) {
+          accentImageMeta.textContent = 'Unable to load accent images.';
+        }
+      }
+
+      async function loadOffers() {
+        try {
+          const response = await fetch('/admin/offers');
+          if (!response.ok) {
+            throw new Error('Failed to load offers');
+          }
+          const offers = await response.json();
+          offerGrid.innerHTML = offers
+            .map(
+              (offer) => `
+              <div class="admin-offer-card" data-offer-id="${offer.id}">
+                <h3>Card ${offer.sortOrder + 1}</h3>
+                <div class="admin-field">
+                  <label>Label</label>
+                  <input type="text" value="${offer.label ?? ''}" />
+                </div>
+                <div class="admin-offer-actions">
+                  <input type="file" accept="image/*" multiple hidden />
+                  <button type="button" class="admin-btn primary" data-action="upload">
+                    Upload images
+                  </button>
+                  <button type="button" class="admin-btn ghost" data-action="save">
+                    Save label
+                  </button>
+                </div>
+                <div class="admin-image-meta">${offer.images.length} / 10 images</div>
+                <div class="admin-offer-images">
+                  ${offer.images
+                    .map(
+                      (image) => `
+                      <div class="admin-image-card">
+                        <img src="${image.url}" alt="Offer image ${image.id}" />
+                        <button type="button" data-action="delete-image" data-image-id="${image.id}">
+                          Delete
+                        </button>
+                      </div>
+                    `,
+                    )
+                    .join('')}
+                </div>
+              </div>
+            `,
+            )
+            .join('');
+        } catch (error) {
+          offerGrid.innerHTML = '<p class="muted">Unable to load offer cards.</p>';
+        }
+      }
+
+      async function loadTestimonials() {
+        try {
+          const response = await fetch('/admin/testimonials');
+          if (!response.ok) {
+            throw new Error('Failed to load testimonials');
+          }
+          const testimonials = await response.json();
+          testimonialGrid.innerHTML = testimonials
+            .map(
+              (item) => `
+              <div class="admin-testimonial-card" data-testimonial-id="${item.id}">
+                <div class="admin-testimonial-avatar">
+                  ${
+                    item.avatarUrl
+                      ? `<img src="${item.avatarUrl}" alt="${item.name ?? 'Avatar'}" />`
+                      : `<div class="admin-testimonial-placeholder">${
+                          (item.name ?? 'LF')
+                            .split(' ')
+                            .map((part) => part.charAt(0))
+                            .join('')
+                            .slice(0, 2)
+                            .toUpperCase()
+                        }</div>`
+                  }
+                  <div class="admin-offer-actions">
+                    <input type="file" accept="image/*" hidden />
+                    <button type="button" class="admin-btn ghost" data-action="upload-avatar">
+                      Upload avatar
+                    </button>
+                  </div>
+                </div>
+                <div class="admin-field">
+                  <label>Name</label>
+                  <input type="text" value="${item.name ?? ''}" />
+                </div>
+                <div class="admin-field">
+                  <label>Role</label>
+                  <input type="text" value="${item.role ?? ''}" />
+                </div>
+                <div class="admin-field">
+                  <label>Quote</label>
+                  <textarea>${item.quote ?? ''}</textarea>
+                </div>
+                <div class="admin-field">
+                  <label>Rating (1-5)</label>
+                  <input type="number" min="1" max="5" value="${item.rating ?? 5}" />
+                </div>
+                <div class="admin-offer-actions">
+                  <button type="button" class="admin-btn primary" data-action="save">
+                    Save
+                  </button>
+                  <button type="button" class="admin-btn ghost" data-action="delete">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            `,
+            )
+            .join('');
+        } catch (error) {
+          testimonialGrid.innerHTML =
+            '<p class="muted">Unable to load testimonials.</p>';
+        }
+      }
+
+      async function loadAboutImages() {
+        try {
+          const response = await fetch('/admin/about-images');
+          if (!response.ok) {
+            throw new Error('Failed to load about images');
+          }
+          const images = await response.json();
+          aboutImageMeta.textContent = `${images.length} / 10 images`;
+          aboutImagesGrid.innerHTML = images
+            .map(
+              (image) => `
+              <div class="admin-image-card">
+                <img src="${image.url}" alt="About image ${image.id}" />
+                <button type="button" data-id="${image.id}">Delete</button>
+              </div>
+            `,
+            )
+            .join('');
+        } catch (error) {
+          aboutImageMeta.textContent = 'Unable to load images.';
+        }
+      }
+
+      async function loadAboutIntroImages() {
+        try {
+          const response = await fetch('/admin/about-intro-images');
+          if (!response.ok) {
+            throw new Error('Failed to load about intro images');
+          }
+          const images = await response.json();
+          aboutIntroImageMeta.textContent = `${images.length} / 10 images`;
+          aboutIntroImagesGrid.innerHTML = images
+            .map(
+              (image) => `
+              <div class="admin-image-card">
+                <img src="${image.url}" alt="About intro image ${image.id}" />
+                <button type="button" data-id="${image.id}">Delete</button>
+              </div>
+            `,
+            )
+            .join('');
+        } catch (error) {
+          aboutIntroImageMeta.textContent = 'Unable to load images.';
+        }
+      }
+
+      async function loadGreenhouseVideo() {
+        try {
+          const response = await fetch('/admin/greenhouse-video');
+          if (!response.ok) {
+            throw new Error('Failed to load greenhouse video');
+          }
+          const video = await response.json();
+          if (video) {
+            greenhouseVideoMeta.textContent = 'Video uploaded';
+            greenhouseVideoDisplay.innerHTML = `
+              <div style="margin-top: 20px;">
+                <video src="${video.url}" controls style="width: 100%; max-width: 600px; border-radius: 12px;"></video>
+                <div style="margin-top: 12px;">
+                  <button type="button" class="admin-btn ghost" data-id="${video.id}">Delete video</button>
+                </div>
+              </div>
+            `;
+          } else {
+            greenhouseVideoMeta.textContent = 'No video uploaded yet';
+            greenhouseVideoDisplay.innerHTML = '';
+          }
+        } catch (error) {
+          greenhouseVideoMeta.textContent = 'Unable to load video.';
+        }
+      }
+
+      async function loadFeatureImages() {
+        try {
+          const response = await fetch('/admin/feature-images');
+          if (!response.ok) {
+            throw new Error('Failed to load feature images');
+          }
+          const images = await response.json();
+          featureImageMeta.textContent = `${images.length} / 10 images`;
+          featureImagesGrid.innerHTML = images
+            .map(
+              (image) => `
+              <div class="admin-image-card">
+                <img src="${image.url}" alt="Feature image ${image.id}" />
+                <button type="button" data-id="${image.id}">Delete</button>
+              </div>
+            `,
+            )
+            .join('');
+        } catch (error) {
+          featureImageMeta.textContent = 'Unable to load images.';
+        }
+      }
+
+      async function loadServices() {
+        try {
+          const response = await fetch('/admin/services/categories');
+          if (!response.ok) {
+            throw new Error('Failed to load services');
+          }
+          const categories = await response.json();
+          servicesGrid.innerHTML = categories
+            .map(
+              (category) => `
+              <div class="admin-service-card" data-service-id="${category.id}">
+                <div class="admin-testimonial-avatar">
+                  ${
+                    category.imageUrl
+                      ? `<img src="${category.imageUrl}" alt="${category.name ?? 'Service'}" />`
+                      : `<div class="admin-testimonial-placeholder">${
+                          (category.name ?? 'SC')
+                            .split(' ')
+                            .map((part) => part.charAt(0))
+                            .join('')
+                            .slice(0, 2)
+                            .toUpperCase()
+                        }</div>`
+                  }
+                  <div class="admin-offer-actions">
+                    <input type="file" accept="image/*" multiple hidden />
+                    <button type="button" class="admin-btn ghost" data-action="upload-service-images">
+                      Upload images
+                    </button>
+                  </div>
+                </div>
+                <div class="admin-image-meta">${
+                  (category.images || []).length
+                } / 12 images</div>
+                <div class="admin-offer-images admin-service-images">
+                  ${(category.images || [])
+                    .map(
+                      (image) => `
+                      <div class="admin-image-card">
+                        <img src="${image.url}" alt="${category.name ?? 'Service'} image" />
+                        <button type="button" data-action="delete-service-image" data-image-id="${image.id}">
+                          Delete
+                        </button>
+                      </div>
+                    `,
+                    )
+                    .join('')}
+                </div>
+                <div class="admin-field">
+                  <label>Category name</label>
+                  <input type="text" value="${category.name ?? ''}" />
+                </div>
+                <div class="admin-field">
+                  <label>Description</label>
+                  <textarea>${category.description ?? ''}</textarea>
+                </div>
+                <div class="admin-offer-actions">
+                  <button type="button" class="admin-btn primary" data-action="save-service">
+                    Save category
+                  </button>
+                  <button type="button" class="admin-btn ghost" data-action="delete-service">
+                    Delete category
+                  </button>
+                  <button type="button" class="admin-btn ghost" data-action="add-product">
+                    Add product
+                  </button>
+                </div>
+                <div class="admin-service-products">
+                  ${(category.products || [])
+                    .map(
+                      (product) => `
+                      <div class="admin-service-product" data-product-id="${product.id}">
+                        <div class="admin-field">
+                          <label>Product name</label>
+                          <input type="text" value="${product.name ?? ''}" />
+                        </div>
+                        <div class="admin-field">
+                          <label>Description</label>
+                          <textarea>${product.description ?? ''}</textarea>
+                        </div>
+                        <div class="admin-offer-actions">
+                          <button type="button" class="admin-btn primary" data-action="save-product">
+                            Save
+                          </button>
+                          <button type="button" class="admin-btn ghost" data-action="delete-product">
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    `,
+                    )
+                    .join('')}
+                </div>
+              </div>
+            `,
+            )
+            .join('');
+        } catch (error) {
+          servicesGrid.innerHTML =
+            '<p class="muted">Unable to load services.</p>';
+        }
+      }
+
+      async function loadTeam() {
+        try {
+          const response = await fetch('/admin/team');
+          if (!response.ok) {
+            throw new Error('Failed to load team');
+          }
+          const members = await response.json();
+          teamGrid.innerHTML = members
+            .map(
+              (member) => `
+              <div class="admin-testimonial-card" data-team-id="${member.id}">
+                <div class="admin-testimonial-avatar">
+                  ${
+                    member.imageUrl
+                      ? `<img src="${member.imageUrl}" alt="${member.name ?? 'Team'}" />`
+                      : `<div class="admin-testimonial-placeholder">${
+                          (member.name ?? 'LF')
+                            .split(' ')
+                            .map((part) => part.charAt(0))
+                            .join('')
+                            .slice(0, 2)
+                            .toUpperCase()
+                        }</div>`
+                  }
+                  <div class="admin-offer-actions">
+                    <input type="file" accept="image/*" hidden />
+                    <button type="button" class="admin-btn ghost" data-action="upload-team-image">
+                      Upload image
+                    </button>
+                  </div>
+                </div>
+                <div class="admin-field">
+                  <label>Name</label>
+                  <input type="text" value="${member.name ?? ''}" />
+                </div>
+                <div class="admin-field">
+                  <label>Role</label>
+                  <input type="text" value="${member.role ?? ''}" />
+                </div>
+                <div class="admin-field">
+                  <label>Description</label>
+                  <textarea>${member.description ?? ''}</textarea>
+                </div>
+                <div class="admin-offer-actions">
+                  <button type="button" class="admin-btn primary" data-action="save-team">
+                    Save
+                  </button>
+                  <button type="button" class="admin-btn ghost" data-action="delete-team">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            `,
+            )
+            .join('');
+        } catch (error) {
+          teamGrid.innerHTML = '<p class="muted">Unable to load team members.</p>';
+        }
+      }
+
+      function setHeroImagesCollapsed(collapsed) {
+        heroImagesPanel.classList.toggle('is-collapsed', collapsed);
+        heroImagesToggle.textContent = collapsed ? 'Expand' : 'Collapse';
+        if (!collapsed) {
+          heroImagesBody.style.maxHeight = `${heroImagesBody.scrollHeight}px`;
+        }
+      }
+
+      function showPanel(panelName) {
+        panels.forEach((panel) => {
+          panel.classList.toggle(
+            'is-hidden',
+            !panelName || panel.getAttribute('data-panel') !== panelName,
+          );
+        });
+        if (panelName === 'hero-images') {
+          setHeroImagesCollapsed(false);
+          loadHeroImages();
+        }
+        if (panelName === 'about-images') {
+          loadAboutImages();
+        }
+        if (panelName === 'about-intro-images') {
+          loadAboutIntroImages();
+        }
+        if (panelName === 'about-accent-images') {
+          loadAccentImages();
+        }
+        if (panelName === 'greenhouse-video') {
+          loadGreenhouseVideo();
+        }
+        if (panelName === 'feature-images') {
+          loadFeatureImages();
+        }
+        if (panelName === 'services') {
+          loadServices();
+        }
+        if (panelName === 'offer-content') {
+          loadOffers();
+        }
+        if (panelName === 'testimonials') {
+          loadTestimonials();
+        }
+        if (panelName === 'team') {
+          loadTeam();
+        }
+        if (panelName === 'news') {
+          loadNews();
+        }
+        if (panelName === 'hero-content' || panelName === 'about-content') {
+          loadContent();
+        }
+      }
+
+      function scheduleHeroImagesCollapse() {
+        if (collapseTimer) {
+          clearTimeout(collapseTimer);
+        }
+        collapseTimer = setTimeout(() => {
+          setHeroImagesCollapsed(true);
+        }, 10000);
+      }
+
+      heroImagesToggle.addEventListener('click', () => {
+        const isCollapsed = heroImagesPanel.classList.contains('is-collapsed');
+        setHeroImagesCollapsed(!isCollapsed);
+      });
+
+      managerLinks.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          const panelName = link.getAttribute('data-scroll');
+          if (!panelName) {
+            return;
+          }
+          event.preventDefault();
+          managerLinks.forEach((item) => item.classList.remove('is-active'));
+          link.classList.add('is-active');
+          showPanel(panelName);
+        });
+      });
+
+      heroImageGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (target.tagName !== 'BUTTON') {
+          return;
+        }
+        const id = target.getAttribute('data-id');
+        if (!id) {
+          return;
+        }
+        await fetch(`/admin/hero-images/${id}`, { method: 'DELETE' });
+        loadHeroImages();
+      });
+
+      accentImagesGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (target.tagName !== 'BUTTON') {
+          return;
+        }
+        const id = target.getAttribute('data-id');
+        if (!id) {
+          return;
+        }
+        if (!(await showConfirm('Are you sure you want to delete this image?', 'Delete Image'))) {
+          return;
+        }
+        await fetch(`/admin/about-accent-images/${id}`, { method: 'DELETE' });
+        loadAccentImages();
+      });
+
+      uploadImagesBtn.addEventListener('click', () => {
+        heroImagesInput.click();
+      });
+
+      heroImagesInput.addEventListener('change', async () => {
+        if (!heroImagesInput.files || heroImagesInput.files.length === 0) {
+          return;
+        }
+        const formData = new FormData();
+        Array.from(heroImagesInput.files).forEach((file) => {
+          formData.append('images', file);
+        });
+        heroImageMeta.textContent = 'Uploading images...';
+        try {
+          const response = await fetch('/admin/hero-images', {
+            method: 'POST',
+            body: formData,
+          });
+          if (!response.ok) {
+            const message = await response.text();
+            heroImageMeta.textContent = message || 'Upload failed.';
+            return;
+          }
+          heroImagesInput.value = '';
+          await loadHeroImages();
+          scheduleHeroImagesCollapse();
+        } catch (error) {
+          heroImageMeta.textContent = 'Upload failed.';
+        }
+      });
+
+      uploadAboutImagesBtn.addEventListener('click', () => {
+        aboutImagesInput.click();
+      });
+
+      aboutImagesInput.addEventListener('change', async () => {
+        if (!aboutImagesInput.files || aboutImagesInput.files.length === 0) {
+          return;
+        }
+        const formData = new FormData();
+        Array.from(aboutImagesInput.files).forEach((file) => {
+          formData.append('images', file);
+        });
+        aboutImageMeta.textContent = 'Uploading images...';
+        try {
+          const response = await fetch('/admin/about-images', {
+            method: 'POST',
+            body: formData,
+          });
+          if (!response.ok) {
+            const message = await response.text();
+            aboutImageMeta.textContent = message || 'Upload failed.';
+            return;
+          }
+          aboutImagesInput.value = '';
+          await loadAboutImages();
+        } catch (error) {
+          aboutImageMeta.textContent = 'Upload failed.';
+        }
+      });
+
+      uploadAccentImageBtn.addEventListener('click', () => {
+        accentImageInput.click();
+      });
+
+      accentImageInput.addEventListener('change', async () => {
+        if (!accentImageInput.files || accentImageInput.files.length === 0) {
+          return;
+        }
+        accentImageMeta.textContent = 'Uploading images...';
+        
+        // Upload images one by one
+        const files = Array.from(accentImageInput.files);
+        for (const file of files) {
+          const formData = new FormData();
+          formData.append('image', file);
+          
+          try {
+            const response = await fetch('/admin/about-accent-images', {
+              method: 'POST',
+              body: formData,
+            });
+            if (!response.ok) {
+              const message = await response.text();
+              accentImageMeta.textContent = message || 'Upload failed.';
+              break;
+            }
+          } catch (error) {
+            accentImageMeta.textContent = 'Upload failed.';
+            break;
+          }
+        }
+        
+        accentImageInput.value = '';
+        await loadAccentImages();
+      });
+
+      aboutImagesGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        if (target.tagName !== 'BUTTON') {
+          return;
+        }
+        const id = target.getAttribute('data-id');
+        if (!id) {
+          return;
+        }
+        await fetch(`/admin/about-images/${id}`, { method: 'DELETE' });
+        loadAboutImages();
+      });
+
+      uploadAboutIntroImagesBtn.addEventListener('click', () => {
+        aboutIntroImagesInput.click();
+      });
+
+      aboutIntroImagesInput.addEventListener('change', async () => {
+        if (!aboutIntroImagesInput.files || aboutIntroImagesInput.files.length === 0) {
+          return;
+        }
+        const formData = new FormData();
+        Array.from(aboutIntroImagesInput.files).forEach((file) => {
+          formData.append('images', file);
+        });
+        aboutIntroImageMeta.textContent = 'Uploading images...';
+        try {
+          const response = await fetch('/admin/about-intro-images', {
+            method: 'POST',
+            body: formData,
+          });
+          if (!response.ok) {
+            const message = await response.text();
+            aboutIntroImageMeta.textContent = message || 'Upload failed.';
+            return;
+          }
+          aboutIntroImagesInput.value = '';
+          await loadAboutIntroImages();
+        } catch (error) {
+          aboutIntroImageMeta.textContent = 'Upload failed.';
+        }
+      });
+
+      aboutIntroImagesGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        if (target.tagName !== 'BUTTON') {
+          return;
+        }
+        const id = target.getAttribute('data-id');
+        if (!id) {
+          return;
+        }
+        await fetch(`/admin/about-intro-images/${id}`, { method: 'DELETE' });
+        loadAboutIntroImages();
+      });
+
+      uploadGreenhouseVideoBtn.addEventListener('click', () => {
+        greenhouseVideoInput.click();
+      });
+
+      greenhouseVideoInput.addEventListener('change', async () => {
+        if (!greenhouseVideoInput.files || greenhouseVideoInput.files.length === 0) {
+          return;
+        }
+        const formData = new FormData();
+        formData.append('video', greenhouseVideoInput.files[0]);
+        greenhouseVideoMeta.textContent = 'Uploading video...';
+        try {
+          const response = await fetch('/admin/greenhouse-video', {
+            method: 'POST',
+            body: formData,
+          });
+          if (!response.ok) {
+            const message = await response.text();
+            greenhouseVideoMeta.textContent = message || 'Upload failed.';
+            return;
+          }
+          greenhouseVideoInput.value = '';
+          await loadGreenhouseVideo();
+        } catch (error) {
+          greenhouseVideoMeta.textContent = 'Upload failed.';
+        }
+      });
+
+      greenhouseVideoDisplay.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        if (target.tagName !== 'BUTTON') {
+          return;
+        }
+        const id = target.getAttribute('data-id');
+        if (!id) {
+          return;
+        }
+        await fetch(`/admin/greenhouse-video/${id}`, { method: 'DELETE' });
+        loadGreenhouseVideo();
+      });
+
+      uploadFeatureImagesBtn.addEventListener('click', () => {
+        featureImagesInput.click();
+      });
+
+      featureImagesInput.addEventListener('change', async () => {
+        if (!featureImagesInput.files || featureImagesInput.files.length === 0) {
+          return;
+        }
+        const formData = new FormData();
+        Array.from(featureImagesInput.files).forEach((file) => {
+          formData.append('images', file);
+        });
+        featureImageMeta.textContent = 'Uploading images...';
+        try {
+          const response = await fetch('/admin/feature-images', {
+            method: 'POST',
+            body: formData,
+          });
+          if (!response.ok) {
+            const message = await response.text();
+            featureImageMeta.textContent = message || 'Upload failed.';
+            return;
+          }
+          featureImagesInput.value = '';
+          await loadFeatureImages();
+        } catch (error) {
+          featureImageMeta.textContent = 'Upload failed.';
+        }
+      });
+
+      featureImagesGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        if (target.tagName !== 'BUTTON') {
+          return;
+        }
+        const id = target.getAttribute('data-id');
+        if (!id) {
+          return;
+        }
+        await fetch(`/admin/feature-images/${id}`, { method: 'DELETE' });
+        loadFeatureImages();
+      });
+
+      addServiceCategoryBtn.addEventListener('click', async () => {
+        await fetch('/admin/services/categories', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: 'New Category',
+            description: 'Short category description.',
+          }),
+        });
+        loadServices();
+      });
+
+      servicesGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        const card = target.closest('[data-service-id]');
+        if (!card) {
+          return;
+        }
+        const serviceId = card.getAttribute('data-service-id');
+        if (!serviceId) {
+          return;
+        }
+
+        if (target.dataset.action === 'upload-service-images') {
+          const confirmed = await showConfirm(
+            'Upload multiple images? You can select multiple files at once. Images will be saved immediately after selection.',
+            'Upload Service Images'
+          );
+          if (!confirmed) return;
+          
+          const fileInput = card.querySelector('input[type="file"]');
+          fileInput.click();
+          return;
+        }
+
+        if (target.dataset.action === 'save-service') {
+          const inputs = card.querySelectorAll('.admin-field input, .admin-field textarea');
+          const name = inputs[0].value.trim();
+          const description = inputs[1].value.trim();
+          
+          if (!name) {
+            showToast('Please enter a category name before saving', 'error');
+            return;
+          }
+          
+          try {
+            await fetch(`/admin/services/categories/${serviceId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name, description }),
+            });
+            showToast('Service category saved successfully!', 'success');
+            loadServices();
+          } catch (error) {
+            console.error('Error saving service:', error);
+            showToast('Failed to save service category. Please try again.', 'error');
+          }
+          return;
+        }
+
+        if (target.dataset.action === 'delete-service') {
+          if (!(await showConfirm('Are you sure you want to delete this service category? This will also delete all associated products and images.', 'Delete Service Category'))) return;
+          
+          try {
+            await fetch(`/admin/services/categories/${serviceId}`, { method: 'DELETE' });
+            showToast('Service category deleted successfully!', 'success');
+            loadServices();
+          } catch (error) {
+            console.error('Error deleting service:', error);
+            showToast('Failed to delete service category. Please try again.', 'error');
+          }
+          return;
+        }
+
+        if (target.dataset.action === 'delete-service-image') {
+          const imageId = target.getAttribute('data-image-id');
+          if (!imageId) {
+            return;
+          }
+          
+          if (!(await showConfirm('Are you sure you want to delete this image? This action cannot be undone.', 'Delete Service Image'))) return;
+          
+          try {
+            await fetch(`/admin/services/categories/images/${imageId}`, {
+              method: 'DELETE',
+            });
+            showToast('Service image deleted successfully!', 'success');
+            loadServices();
+          } catch (error) {
+            console.error('Error deleting service image:', error);
+            showToast('Failed to delete image. Please try again.', 'error');
+          }
+          return;
+        }
+
+        if (target.dataset.action === 'add-product') {
+          await fetch(`/admin/services/categories/${serviceId}/products`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: 'New Product',
+              description: 'Short product description.',
+            }),
+          });
+          loadServices();
+          return;
+        }
+
+        const product = target.closest('[data-product-id]');
+        if (!product) {
+          return;
+        }
+        const productId = product.getAttribute('data-product-id');
+        if (!productId) {
+          return;
+        }
+
+        if (target.dataset.action === 'save-product') {
+          const inputs = product.querySelectorAll('.admin-field input, .admin-field textarea');
+          const name = inputs[0].value.trim();
+          const description = inputs[1].value.trim();
+          
+          if (!name) {
+            showToast('Please enter a product name before saving', 'error');
+            return;
+          }
+          
+          try {
+            await fetch(`/admin/services/products/${productId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name, description }),
+            });
+            showToast('Product saved successfully!', 'success');
+            loadServices();
+          } catch (error) {
+            console.error('Error saving product:', error);
+            showToast('Failed to save product. Please try again.', 'error');
+          }
+        }
+
+        if (target.dataset.action === 'delete-product') {
+          if (!(await showConfirm('Are you sure you want to delete this product?', 'Delete Product'))) return;
+          
+          try {
+            await fetch(`/admin/services/products/${productId}`, { method: 'DELETE' });
+            showToast('Product deleted successfully!', 'success');
+            loadServices();
+          } catch (error) {
+            console.error('Error deleting product:', error);
+            showToast('Failed to delete product. Please try again.', 'error');
+          }
+        }
+      });
+
+      servicesGrid.addEventListener('change', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement)) {
+          return;
+        }
+        if (target.type !== 'file') {
+          return;
+        }
+        const card = target.closest('[data-service-id]');
+        if (!card) {
+          return;
+        }
+        const serviceId = card.getAttribute('data-service-id');
+        if (!serviceId || !target.files || target.files.length === 0) {
+          return;
+        }
+        
+        try {
+          const formData = new FormData();
+          Array.from(target.files).forEach((file) => {
+            formData.append('images', file);
+          });
+          await fetch(`/admin/services/categories/${serviceId}/images`, {
+            method: 'POST',
+            body: formData,
+          });
+          showToast(`${target.files.length} image(s) uploaded successfully!`, 'success');
+          target.value = '';
+          loadServices();
+        } catch (error) {
+          console.error('Error uploading images:', error);
+          showToast('Failed to upload images. Please try again.', 'error');
+          target.value = '';
+        }
+      });
+
+      offerGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        const card = target.closest('[data-offer-id]');
+        if (!card) {
+          return;
+        }
+        const offerId = card.getAttribute('data-offer-id');
+        if (!offerId) {
+          return;
+        }
+
+        if (target.dataset.action === 'upload') {
+          const input = card.querySelector('input[type="file"]');
+          input.click();
+          return;
+        }
+
+        if (target.dataset.action === 'save') {
+          const input = card.querySelector('input[type="text"]');
+          await fetch(`/admin/offers/${offerId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ label: input.value.trim() }),
+          });
+          loadOffers();
+          return;
+        }
+
+        if (target.dataset.action === 'delete-image') {
+          const imageId = target.getAttribute('data-image-id');
+          if (!imageId) {
+            return;
+          }
+          await fetch(`/admin/offers/images/${imageId}`, { method: 'DELETE' });
+          loadOffers();
+        }
+      });
+
+      offerGrid.addEventListener('change', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement)) {
+          return;
+        }
+        if (target.type !== 'file') {
+          return;
+        }
+        const card = target.closest('[data-offer-id]');
+        if (!card) {
+          return;
+        }
+        const offerId = card.getAttribute('data-offer-id');
+        if (!offerId || !target.files || target.files.length === 0) {
+          return;
+        }
+        const formData = new FormData();
+        Array.from(target.files).forEach((file) => {
+          formData.append('images', file);
+        });
+        await fetch(`/admin/offers/${offerId}/images`, {
+          method: 'POST',
+          body: formData,
+        });
+        target.value = '';
+        loadOffers();
+      });
+
+      addTestimonialBtn.addEventListener('click', async () => {
+        await fetch('/admin/testimonials', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: 'New Client',
+            role: 'Client',
+            quote: 'Share a short testimonial here.',
+            rating: 5,
+          }),
+        });
+        loadTestimonials();
+      });
+
+      testimonialGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        const card = target.closest('[data-testimonial-id]');
+        if (!card) {
+          return;
+        }
+        const testimonialId = card.getAttribute('data-testimonial-id');
+        if (!testimonialId) {
+          return;
+        }
+
+        if (target.dataset.action === 'upload-avatar') {
+          const fileInput = card.querySelector('input[type="file"]');
+          fileInput.click();
+          return;
+        }
+
+        if (target.dataset.action === 'save') {
+          const inputs = card.querySelectorAll('.admin-field input, .admin-field textarea');
+          const name = inputs[0].value.trim();
+          const role = inputs[1].value.trim();
+          const quote = inputs[2].value.trim();
+          const rating = Number(inputs[3].value || 5);
+          await fetch(`/admin/testimonials/${testimonialId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, role, quote, rating }),
+          });
+          loadTestimonials();
+        }
+
+        if (target.dataset.action === 'delete') {
+          await fetch(`/admin/testimonials/${testimonialId}`, { method: 'DELETE' });
+          loadTestimonials();
+        }
+      });
+
+      testimonialGrid.addEventListener('change', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement)) {
+          return;
+        }
+        if (target.type !== 'file') {
+          return;
+        }
+        const card = target.closest('[data-testimonial-id]');
+        if (!card) {
+          return;
+        }
+        const testimonialId = card.getAttribute('data-testimonial-id');
+        if (!testimonialId || !target.files || target.files.length === 0) {
+          return;
+        }
+        const formData = new FormData();
+        formData.append('avatar', target.files[0]);
+        await fetch(`/admin/testimonials/${testimonialId}/avatar`, {
+          method: 'POST',
+          body: formData,
+        });
+        target.value = '';
+        loadTestimonials();
+      });
+
+      addTeamMemberBtn.addEventListener('click', async () => {
+        await fetch('/admin/team', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: 'New Member',
+            role: 'Team',
+            description: 'Write a short description.',
+          }),
+        });
+        loadTeam();
+      });
+
+      teamGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        const card = target.closest('[data-team-id]');
+        if (!card) {
+          return;
+        }
+        const memberId = card.getAttribute('data-team-id');
+        if (!memberId) {
+          return;
+        }
+
+        if (target.dataset.action === 'upload-team-image') {
+          const fileInput = card.querySelector('input[type="file"]');
+          fileInput.click();
+          return;
+        }
+
+        if (target.dataset.action === 'save-team') {
+          const inputs = card.querySelectorAll('.admin-field input, .admin-field textarea');
+          const name = inputs[0].value.trim();
+          const role = inputs[1].value.trim();
+          const description = inputs[2].value.trim();
+          await fetch(`/admin/team/${memberId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, role, description }),
+          });
+          loadTeam();
+        }
+
+        if (target.dataset.action === 'delete-team') {
+          await fetch(`/admin/team/${memberId}`, { method: 'DELETE' });
+          loadTeam();
+        }
+      });
+
+      teamGrid.addEventListener('change', async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement)) {
+          return;
+        }
+        if (target.type !== 'file') {
+          return;
+        }
+        const card = target.closest('[data-team-id]');
+        if (!card) {
+          return;
+        }
+        const memberId = card.getAttribute('data-team-id');
+        if (!memberId || !target.files || target.files.length === 0) {
+          return;
+        }
+        const formData = new FormData();
+        formData.append('image', target.files[0]);
+        await fetch(`/admin/team/${memberId}/image`, {
+          method: 'POST',
+          body: formData,
+        });
+        target.value = '';
+        loadTeam();
+      });
+
+      // News Management
+      async function loadNews() {
+        try {
+          const news = await fetch('/admin/news').then(r => r.json());
+          newsGrid.innerHTML = news.map(article => `
+            <div class="admin-testimonial-card" data-news-id="${article.id}">
+              <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+                ${article.coverImageUrl ? `
+                  <img src="${article.coverImageUrl}" alt="${article.title}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" />
+                ` : `
+                  <div style="width: 100px; height: 100px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                  </div>
+                `}
+                <div style="flex: 1;">
+                  <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    ${article.featured ? '<span style="padding: 4px 8px; background: #d7b15c; color: white; border-radius: 4px; font-size: 11px; font-weight: 600;">FEATURED</span>' : ''}
+                    ${article.published ? '<span style="padding: 4px 8px; background: #4a8f37; color: white; border-radius: 4px; font-size: 11px; font-weight: 600;">PUBLISHED</span>' : '<span style="padding: 4px 8px; background: #999; color: white; border-radius: 4px; font-size: 11px; font-weight: 600;">DRAFT</span>'}
+                  </div>
+                  <p style="margin: 0; font-size: 12px; color: #666;">
+                    ${new Date(article.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    ${article.author ? ` • By ${article.author}` : ''}
+                  </p>
+                </div>
+              </div>
+              <div class="admin-field">
+                <label>Title</label>
+                <input type="text" value="${article.title || ''}" data-field="title" />
+              </div>
+              <div class="admin-field">
+                <label>Excerpt (Short summary)</label>
+                <textarea data-field="excerpt" rows="2">${article.excerpt || ''}</textarea>
+              </div>
+              <div class="admin-field">
+                <label>Content</label>
+                <textarea data-field="content" rows="6">${article.content || ''}</textarea>
+              </div>
+              <div class="admin-grid">
+                <div class="admin-field">
+                  <label>Author</label>
+                  <input type="text" value="${article.author || ''}" data-field="author" />
+                </div>
+                <div class="admin-field">
+                  <label>Publish Date</label>
+                  <input type="date" value="${article.publishDate ? article.publishDate.split('T')[0] : ''}" data-field="publishDate" />
+                </div>
+              </div>
+              <div class="admin-grid">
+                <div class="admin-field">
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" ${article.featured ? 'checked' : ''} data-field="featured" style="width: auto;" />
+                    Featured Article
+                  </label>
+                </div>
+                <div class="admin-field">
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" ${article.published ? 'checked' : ''} data-field="published" style="width: auto;" />
+                    Published
+                  </label>
+                </div>
+              </div>
+              <div class="admin-offer-actions">
+                <input type="file" accept="image/*" style="display: none;" data-type="cover" />
+                <button type="button" class="admin-btn ghost small" data-action="upload-cover">
+                  ${article.coverImageUrl ? 'Change' : 'Upload'} Cover Image
+                </button>
+                <button type="button" class="admin-btn ghost small" data-action="manage-images">
+                  Manage Images
+                </button>
+                <button type="button" class="admin-btn primary small" data-action="save-news">
+                  Save
+                </button>
+                <button type="button" class="admin-btn danger small" data-action="delete-news">
+                  Delete
+                </button>
+              </div>
+            </div>
+          `).join('');
+        } catch (error) {
+          console.error('Error loading news:', error);
+        }
+      }
+
+      if (addNewsBtn) {
+        addNewsBtn.addEventListener('click', async () => {
+          await fetch('/admin/news', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              title: 'New Article',
+              content: 'Write your article content here.',
+              excerpt: 'Brief summary of the article.',
+              author: '',
+              featured: false,
+              published: false,
+              publishDate: new Date().toISOString(),
+            }),
+          });
+          loadNews();
+        });
+      }
+
+      if (newsGrid) {
+        console.log('News grid event listeners attached');
+        newsGrid.addEventListener('click', async (event) => {
+        const target = event.target;
+        console.log('News grid clicked:', target);
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        const card = target.closest('[data-news-id]');
+        if (!card) {
+          console.log('No card found');
+          return;
+        }
+        const newsId = card.getAttribute('data-news-id');
+        console.log('News ID:', newsId, 'Action:', target.dataset.action);
+        if (!newsId) {
+          return;
+        }
+
+        if (target.dataset.action === 'upload-cover') {
+          const confirmed = await showConfirm(
+            'Upload a new cover image? The image will be saved immediately after selection.',
+            'Upload Cover Image'
+          );
+          if (!confirmed) return;
+          
+          const fileInput = card.querySelector('input[data-type="cover"]');
+          fileInput.click();
+          return;
+        }
+
+        if (target.dataset.action === 'manage-images') {
+          console.log('Manage images clicked for news ID:', newsId);
+          const modal = document.createElement('div');
+          modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;';
+          modal.innerHTML = `
+            <div style="background: white; border-radius: 16px; padding: 32px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="margin: 0;">Manage Article Images</h2>
+                <button type="button" class="modal-close-btn" style="background: none; border: none; font-size: 32px; cursor: pointer; color: #999;">×</button>
+              </div>
+              <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 12px; margin-bottom: 16px; color: #856404;">
+                <strong>⚠️ Important:</strong> Changes will be saved immediately when you upload or delete images. Make sure to review before taking action.
+              </div>
+              <input type="file" accept="image/*" multiple style="display: none;" id="newsImagesInput" />
+              <button type="button" class="admin-btn primary" id="uploadImagesBtn">
+                Upload Images
+              </button>
+              <div id="newsImagesGrid" style="margin-top: 20px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));"></div>
+            </div>
+          `;
+          document.body.appendChild(modal);
+          
+          // Add event listeners for modal buttons
+          modal.querySelector('.modal-close-btn').addEventListener('click', () => modal.remove());
+          modal.querySelector('#uploadImagesBtn').addEventListener('click', () => {
+            document.getElementById('newsImagesInput').click();
+          });
+
+          // Load images
+          const images = await fetch(`/admin/news/${newsId}/images`).then(r => r.json());
+          const imagesGrid = document.getElementById('newsImagesGrid');
+          imagesGrid.innerHTML = images.map(img => `
+            <div class="news-image-item" style="border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background: #f8f8f8;" data-image-id="${img.id}">
+              <img src="${img.url}" alt="${img.caption || ''}" style="width: 100%; height: 150px; object-fit: cover;" />
+              <div style="padding: 12px;">
+                <input type="text" class="image-caption-input" placeholder="Caption" value="${img.caption || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 8px;" />
+                <button type="button" class="admin-btn primary small save-caption-btn" style="width: 100%; margin-bottom: 4px;">Save Caption</button>
+                <button type="button" class="admin-btn danger small delete-image-btn" style="width: 100%;">Delete</button>
+              </div>
+            </div>
+          `).join('');
+          
+          // Add event listeners for each image
+          imagesGrid.querySelectorAll('.news-image-item').forEach(item => {
+            const imageId = item.dataset.imageId;
+            const captionInput = item.querySelector('.image-caption-input');
+            
+            item.querySelector('.save-caption-btn').addEventListener('click', async () => {
+              const confirmed = await showConfirm(
+                'Save this caption? This action will be applied immediately.',
+                'Save Caption'
+              );
+              
+              if (!confirmed) return;
+              
+              try {
+                await fetch(`/admin/news/images/${imageId}/caption`, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ caption: captionInput.value }),
+                });
+                showToast('Caption updated successfully!', 'success');
+              } catch (error) {
+                console.error('Error updating caption:', error);
+                showToast('Failed to update caption. Please try again.', 'error');
+              }
+            });
+            
+            item.querySelector('.delete-image-btn').addEventListener('click', async () => {
+              if (!(await showConfirm('Are you sure you want to delete this image? This action cannot be undone and will be applied immediately.', 'Delete Image'))) return;
+              
+              try {
+                await fetch(`/admin/news/images/${imageId}`, { method: 'DELETE' });
+                showToast('Image deleted successfully!', 'success');
+                target.click();
+                setTimeout(() => modal.remove(), 100);
+              } catch (error) {
+                console.error('Error deleting image:', error);
+                showToast('Failed to delete image. Please try again.', 'error');
+              }
+            });
+          });
+
+          // Handle upload
+          document.getElementById('newsImagesInput').addEventListener('change', async (e) => {
+            const files = e.target.files;
+            if (!files || files.length === 0) return;
+            
+            // Show confirmation before uploading
+            const fileNames = Array.from(files).map(f => f.name).join(', ');
+            const confirmed = await showConfirm(
+              `Are you sure you want to upload ${files.length} image(s)? This action will be saved immediately.\n\nFiles: ${fileNames.substring(0, 100)}${fileNames.length > 100 ? '...' : ''}`,
+              'Upload Images'
+            );
+            
+            if (!confirmed) {
+              e.target.value = ''; // Clear the file input
+              return;
+            }
+            
+            const formData = new FormData();
+            for (const file of files) {
+              formData.append('images', file);
+            }
+            
+            try {
+              await fetch(`/admin/news/${newsId}/images`, {
+                method: 'POST',
+                body: formData,
+              });
+              showToast(`${files.length} image(s) uploaded successfully!`, 'success');
+              // Reload modal
+              target.click();
+              setTimeout(() => modal.remove(), 100);
+            } catch (error) {
+              console.error('Error uploading images:', error);
+              showToast('Failed to upload images. Please try again.', 'error');
+            }
+          });
+          
+          return;
+        }
+
+        if (target.dataset.action === 'save-news') {
+          const title = card.querySelector('[data-field="title"]').value.trim();
+          const excerpt = card.querySelector('[data-field="excerpt"]').value.trim();
+          const content = card.querySelector('[data-field="content"]').value.trim();
+          const author = card.querySelector('[data-field="author"]').value.trim();
+          const publishDate = card.querySelector('[data-field="publishDate"]').value;
+          const featured = card.querySelector('[data-field="featured"]').checked;
+          const published = card.querySelector('[data-field="published"]').checked;
+
+          if (!title) {
+            showToast('Please enter a title before saving', 'error');
+            return;
+          }
+
+          try {
+            await fetch(`/admin/news/${newsId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ title, excerpt, content, author, publishDate, featured, published }),
+            });
+            showToast('News article saved successfully!', 'success');
+            loadNews();
+          } catch (error) {
+            console.error('Error saving news:', error);
+            showToast('Failed to save news article. Please try again.', 'error');
+          }
+        }
+
+        if (target.dataset.action === 'delete-news') {
+          if (!(await showConfirm('Are you sure you want to delete this news article? This will also delete all associated images and cannot be undone.', 'Delete News Article'))) return;
+          
+          try {
+            await fetch(`/admin/news/${newsId}`, { method: 'DELETE' });
+            showToast('News article deleted successfully!', 'success');
+            loadNews();
+          } catch (error) {
+            console.error('Error deleting news:', error);
+            showToast('Failed to delete news article. Please try again.', 'error');
+          }
+        }
+        });
+
+        newsGrid.addEventListener('change', async (event) => {
+          const target = event.target;
+          if (!(target instanceof HTMLInputElement)) {
+            return;
+          }
+          if (target.type !== 'file') {
+            return;
+          }
+          const card = target.closest('[data-news-id]');
+          if (!card) {
+            return;
+          }
+          const newsId = card.getAttribute('data-news-id');
+          if (!newsId || !target.files || target.files.length === 0) {
+            return;
+          }
+          
+          if (target.dataset.type === 'cover') {
+            try {
+              const formData = new FormData();
+              formData.append('cover', target.files[0]);
+              await fetch(`/admin/news/${newsId}/cover`, {
+                method: 'POST',
+                body: formData,
+              });
+              showToast('Cover image uploaded successfully!', 'success');
+              target.value = '';
+              loadNews();
+            } catch (error) {
+              console.error('Error uploading cover image:', error);
+              showToast('Failed to upload cover image. Please try again.', 'error');
+              target.value = '';
+            }
+          }
+        });
+      }
+
+      heroForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        setStatus(heroStatus, 'Saving...');
+
+        const payload = {
+          home: {
+            heroEyebrow: document.getElementById('heroEyebrow').value.trim(),
+            heroTitle: document.getElementById('heroTitle').value.trim(),
+            heroSubtitle: document.getElementById('heroSubtitle').value.trim(),
+            heroCta: document.getElementById('heroCta').value.trim(),
+          },
+        };
+
+        try {
+          const response = await fetch('/admin/content', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!response.ok) {
+            const message = await response.text();
+            throw new Error(message || 'Save failed');
+          }
+          setStatus(heroStatus, 'Saved successfully.');
+        } catch (error) {
+          setStatus(heroStatus, 'Unable to save changes.', true);
+        }
+      });
+
+      aboutForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        setStatus(aboutStatus, 'Saving...');
+
+        const payload = {
+          about: {
+            eyebrow: document.getElementById('aboutEyebrow').value.trim(),
+            title: document.getElementById('aboutTitle').value.trim(),
+            summary: document.getElementById('aboutSummary').value.trim(),
+          },
+        };
+
+        try {
+          const response = await fetch('/admin/content', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!response.ok) {
+            const message = await response.text();
+            throw new Error(message || 'Save failed');
+          }
+          setStatus(aboutStatus, 'Saved successfully.');
+        } catch (error) {
+          setStatus(aboutStatus, 'Unable to save changes.', true);
+        }
+      });
+
+      document.getElementById('logoutBtn').addEventListener('click', async () => {
+        await fetch('/admin/logout', { method: 'POST' });
+        window.location.href = '/admin/login';
+      });
+
+      // Load dashboard statistics on page load
+      loadDashboardStats();
+
+      showPanel();
+    </script>
+  </body>
+</html>

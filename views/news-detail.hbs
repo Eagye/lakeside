@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{news.title}} | Lakeside Farms News</title>
+    <meta name="description" content="{{news.excerpt}}" />
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&family=Pacifico&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .page-news-detail {
+        background: #f8f9fa;
+      }
+
+      .news-detail-hero {
+        position: relative;
+        padding: 140px 0 80px;
+        background: linear-gradient(135deg, rgba(45, 80, 22, 0.97) 0%, rgba(74, 124, 47, 0.95) 100%);
+        color: white;
+        overflow: hidden;
+      }
+
+      .news-detail-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at top right, rgba(255,255,255,0.1) 0%, transparent 50%);
+        z-index: 0;
+      }
+
+      .news-detail-hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .news-breadcrumb {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        padding: 0.5rem 1.25rem;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(10px);
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .news-breadcrumb:hover {
+        background: rgba(255, 255, 255, 0.18);
+        transform: translateY(-2px);
+      }
+
+      .news-breadcrumb a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        transition: color 0.3s;
+        font-weight: 500;
+      }
+
+      .news-breadcrumb a:hover {
+        color: white;
+      }
+
+      .news-breadcrumb svg {
+        opacity: 0.5;
+      }
+
+      .news-breadcrumb span {
+        color: white;
+        font-weight: 600;
+      }
+
+      .news-detail-title {
+        font-size: 3.5rem;
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 2rem;
+        line-height: 1.2;
+        text-shadow: 2px 4px 12px rgba(0,0,0,0.3);
+        letter-spacing: -0.5px;
+        animation: fadeInUp 0.8s ease;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .news-detail-meta {
+        display: flex;
+        gap: 2.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        animation: fadeIn 1s ease 0.3s both;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .news-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        backdrop-filter: blur(5px);
+      }
+
+      .news-meta-item svg {
+        opacity: 0.9;
+      }
+
+      .news-detail-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .author-avatar-large {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: white;
+        color: #2d5016;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .news-content-section {
+        padding: 60px 0 80px;
+      }
+
+      .news-content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 4rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .news-main-content {
+        background: white;
+        padding: 3rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      }
+
+      .news-cover-image {
+        width: 100%;
+        height: 500px;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      }
+
+      .news-cover-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .news-body {
+        font-size: 1.125rem;
+        line-height: 1.9;
+        color: #333;
+      }
+
+      .news-body p {
+        margin-bottom: 1.5rem;
+      }
+
+      .news-body h2,
+      .news-body h3 {
+        margin: 2rem 0 1rem;
+        color: #2d5016;
+        font-family: 'Playfair Display', serif;
+      }
+
+      .news-body h2 {
+        font-size: 2rem;
+      }
+
+      .news-body h3 {
+        font-size: 1.5rem;
+      }
+
+      /* Image Slider Styles */
+      .news-images-slider {
+        margin: 3rem 0;
+        background: #f8f9fa;
+        padding: 3rem;
+        border-radius: 16px;
+      }
+
+      .slider-title {
+        font-size: 1.75rem;
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 2rem;
+        color: #2d5016;
+        text-align: center;
+      }
+
+      .slider-container {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .slider-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      }
+
+      .slider-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .slider-slide {
+        min-width: 100%;
+        position: relative;
+      }
+
+      .slider-slide img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .slider-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        color: white;
+        padding: 3rem 2rem 1.5rem;
+        font-size: 1rem;
+        text-align: center;
+      }
+
+      .slider-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1rem;
+        pointer-events: none;
+      }
+
+      .slider-btn {
+        pointer-events: all;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.95);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+
+      .slider-btn:hover {
+        background: white;
+        transform: scale(1.1);
+      }
+
+      .slider-btn svg {
+        stroke: #2d5016;
+      }
+
+      .slider-dots {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+
+      .slider-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #d0d0d0;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .slider-dot.active {
+        background: #2d5016;
+        width: 32px;
+        border-radius: 6px;
+      }
+
+      .slider-counter {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        color: #666;
+        font-weight: 600;
+      }
+
+      /* Sidebar */
+      .news-sidebar {
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+      }
+
+      .sidebar-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+      }
+
+      .sidebar-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #2d5016;
+        font-family: 'Playfair Display', serif;
+      }
+
+      .related-news-item {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #e0e0e0;
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.3s ease;
+      }
+
+      .related-news-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+
+      .related-news-item:hover {
+        transform: translateX(4px);
+      }
+
+      .related-news-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .related-news-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .related-news-content h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+      }
+
+      .related-news-date {
+        font-size: 0.85rem;
+        color: #666;
+      }
+
+      .share-buttons {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .share-btn {
+        flex: 1;
+        padding: 0.75rem;
+        border: 2px solid #e0e0e0;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .share-btn:hover {
+        border-color: #2d5016;
+        color: #2d5016;
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 1024px) {
+        .news-content-wrapper {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .news-sidebar {
+          position: static;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .news-detail-hero {
+          padding: 120px 0 60px;
+        }
+
+        .news-detail-title {
+          font-size: 2.25rem;
+        }
+
+        .news-main-content {
+          padding: 2rem 1.5rem;
+        }
+
+        .news-cover-image,
+        .slider-slide img {
+          height: 300px;
+        }
+
+        .slider-btn {
+          width: 40px;
+          height: 40px;
+        }
+
+        .news-detail-meta {
+          gap: 1rem;
+        }
+
+        .news-breadcrumb {
+          font-size: 0.8rem;
+          padding: 0.4rem 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="page-news-detail">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">
+          <img
+            class="brand-logo"
+            src="/assets/ll.PNG"
+            alt="Lakeside"
+            width="85"
+            height="85"
+            decoding="async"
+          />
+          <span class="brand-text">Lakeside Farms</span>
+        </a>
+        <nav class="main-nav" aria-label="Primary">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about" class="nav-link">About</a>
+          <a href="/services" class="nav-link">Services</a>
+          <a href="/news" class="nav-link active">News</a>
+          <a href="/contact" class="nav-link">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <button
+            class="icon-btn mobile-toggle"
+            aria-label="Toggle menu"
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+          >
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
+        <a href="/" class="mobile-nav-link">Home</a>
+        <a href="/about" class="mobile-nav-link">About</a>
+        <a href="/services" class="mobile-nav-link">Services</a>
+        <a href="/news" class="mobile-nav-link">News</a>
+        <a href="/contact" class="mobile-nav-link">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="news-detail-hero">
+        <div class="container news-detail-hero-content">
+          <div class="news-breadcrumb">
+            <a href="/">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/news">News</a>
+          </div>
+          <h1 class="news-detail-title">{{news.title}}</h1>
+          <div class="news-detail-meta">
+            <div class="news-detail-author">
+              {{#if news.author}}
+                <div class="author-avatar-large">{{authorInitials news.author}}</div>
+                <div>
+                  <div style="font-weight: 600;">{{news.author}}</div>
+                  <div style="font-size: 0.9rem; opacity: 0.9;">Author</div>
+                </div>
+              {{else}}
+                <div class="author-avatar-large">LF</div>
+                <div>
+                  <div style="font-weight: 600;">Lakeside Farms</div>
+                  <div style="font-size: 0.9rem; opacity: 0.9;">Author</div>
+                </div>
+              {{/if}}
+            </div>
+            <span class="news-meta-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              {{formatDate news.publishDate}}
+            </span>
+            {{#if hasImages}}
+              <span class="news-meta-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                {{images.length}} Photos
+              </span>
+            {{/if}}
+          </div>
+        </div>
+      </section>
+
+      <section class="news-content-section">
+        <div class="container">
+          <div class="news-content-wrapper">
+            <div class="news-main-content">
+              {{#if news.coverImageUrl}}
+                <div class="news-cover-image">
+                  <img src="{{news.coverImageUrl}}" alt="{{news.title}}" decoding="async" />
+                </div>
+              {{/if}}
+
+              <div class="news-body">
+                {{{formatContent news.content}}}
+              </div>
+
+              {{#if hasImages}}
+                <div class="news-images-slider">
+                  <h2 class="slider-title">Photo Gallery</h2>
+                  <div class="slider-container">
+                    <div class="slider-wrapper">
+                      <div class="slider-track" id="sliderTrack">
+                        {{#each images}}
+                          <div class="slider-slide">
+                            <img src="{{this.url}}" alt="{{this.caption}}" loading="lazy" decoding="async" />
+                            {{#if this.caption}}
+                              <div class="slider-caption">{{this.caption}}</div>
+                            {{/if}}
+                          </div>
+                        {{/each}}
+                      </div>
+                    </div>
+                    <div class="slider-nav">
+                      <button class="slider-btn slider-prev" id="sliderPrev">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                          <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                      </button>
+                      <button class="slider-btn slider-next" id="sliderNext">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                          <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="slider-dots" id="sliderDots"></div>
+                    <div class="slider-counter" id="sliderCounter"></div>
+                  </div>
+                </div>
+              {{/if}}
+            </div>
+
+            <aside class="news-sidebar">
+              <div class="sidebar-section">
+                <h3 class="sidebar-title">Share Article</h3>
+                <div class="share-buttons">
+                  <button class="share-btn" onclick="shareOnFacebook()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  </button>
+                  <button class="share-btn" onclick="shareOnTwitter()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {{#if hasOtherNews}}
+                <div class="sidebar-section">
+                  <h3 class="sidebar-title">Related News</h3>
+                  {{#each otherNews}}
+                    <a href="/news/{{this.id}}" class="related-news-item">
+                      <div class="related-news-image">
+                        {{#if this.coverImageUrl}}
+                          <img src="{{this.coverImageUrl}}" alt="{{this.title}}" loading="lazy" decoding="async" />
+                        {{/if}}
+                      </div>
+                      <div class="related-news-content">
+                        <h4>{{this.title}}</h4>
+                        <div class="related-news-date">{{formatDate this.publishDate}}</div>
+                      </div>
+                    </a>
+                  {{/each}}
+                </div>
+              {{/if}}
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img
+            src="/assets/ll.PNG"
+            alt="Lakeside"
+            width="180"
+            height="180"
+            loading="lazy"
+            decoding="async"
+          />
+          <p>Lakeside Farm Livestock</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <div class="footer-link-row">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/services">Services</a>
+            <a href="/news">News</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p>P.O.BOX 236 OFANKOR-ACCRA | +233543024779 / +233268000341</p>
+          <p>lakesidefarmgh@gmail.com | info@lakesidefarmgh.com</p>
+        </div>
+        <div class="footer-social">
+          <div class="socials">
+            {{#if socialMedia.facebook}}
+              <a href="{{socialMedia.facebook}}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.twitter}}
+              <a href="{{socialMedia.twitter}}" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.instagram}}
+              <a href="{{socialMedia.instagram}}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.linkedin}}
+              <a href="{{socialMedia.linkedin}}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+            {{/if}}
+          </div>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Email Address" aria-label="Email address" />
+            <button aria-label="Subscribe">
+              <img src="/assets/Group - 1/Link - icon.png" alt="" loading="lazy" decoding="async" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">
+          <p>© All Copyright 2020 by Lakeside</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Navbar scroll effect and mobile menu
+      const header = document.querySelector('.site-header');
+      const mobileToggle = document.querySelector('.mobile-toggle');
+      const body = document.body;
+
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', () => {
+          body.classList.toggle('nav-open');
+        });
+      }
+
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          body.classList.remove('nav-open');
+        });
+      });
+
+      // Image Slider
+      const sliderTrack = document.getElementById('sliderTrack');
+      const sliderPrev = document.getElementById('sliderPrev');
+      const sliderNext = document.getElementById('sliderNext');
+      const sliderDots = document.getElementById('sliderDots');
+      const sliderCounter = document.getElementById('sliderCounter');
+
+      if (sliderTrack && sliderPrev && sliderNext) {
+        const slides = sliderTrack.querySelectorAll('.slider-slide');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+
+        // Create dots
+        slides.forEach((_, index) => {
+          const dot = document.createElement('button');
+          dot.classList.add('slider-dot');
+          if (index === 0) dot.classList.add('active');
+          dot.addEventListener('click', () => goToSlide(index));
+          sliderDots.appendChild(dot);
+        });
+
+        const dots = sliderDots.querySelectorAll('.slider-dot');
+
+        function updateSlider() {
+          sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+          
+          dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentSlide);
+          });
+
+          sliderCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function goToSlide(index) {
+          currentSlide = index;
+          updateSlider();
+        }
+
+        function nextSlide() {
+          currentSlide = (currentSlide + 1) % totalSlides;
+          updateSlider();
+        }
+
+        function prevSlide() {
+          currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+          updateSlider();
+        }
+
+        sliderNext.addEventListener('click', nextSlide);
+        sliderPrev.addEventListener('click', prevSlide);
+
+        // Auto-play
+        let autoplayInterval = setInterval(nextSlide, 5000);
+
+        // Pause on hover
+        sliderTrack.addEventListener('mouseenter', () => {
+          clearInterval(autoplayInterval);
+        });
+
+        sliderTrack.addEventListener('mouseleave', () => {
+          autoplayInterval = setInterval(nextSlide, 5000);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') prevSlide();
+          if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        sliderTrack.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        });
+
+        sliderTrack.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          if (touchStartX - touchEndX > 50) nextSlide();
+          if (touchEndX - touchStartX > 50) prevSlide();
+        });
+
+        updateSlider();
+      }
+
+      // Share functions
+      function shareOnFacebook() {
+        const url = window.location.href;
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+      }
+
+      function shareOnTwitter() {
+        const url = window.location.href;
+        const title = document.querySelector('.news-detail-title').textContent;
+        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
+      }
+    </script>
+  </body>
+</html>

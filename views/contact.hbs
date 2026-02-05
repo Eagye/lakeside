@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lakeside - Contact Us | Get in Touch with Our Team</title>
+    <meta name="description" content="Contact Lakeside Farms in Accra, Ghana. Find directions to our farm, send us a message, or reach out via WhatsApp" />
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&family=Pacifico&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCb2CGm7T1Ihw5kMN0FrUd2HrVCFGPxrMw&libraries=places" async defer></script>
+    <style>
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Custom Notification System */
+      .notification-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        max-width: 400px;
+      }
+      
+      .notification {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        animation: slideIn 0.3s ease-out;
+        display: flex;
+        gap: 15px;
+        border-left: 4px solid #4CAF50;
+      }
+      
+      .notification.error {
+        border-left-color: #ff6b6b;
+      }
+      
+      .notification.warning {
+        border-left-color: #ffa726;
+      }
+      
+      .notification.info {
+        border-left-color: #42a5f5;
+      }
+      
+      .notification-icon {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+      }
+      
+      .notification-content {
+        flex: 1;
+      }
+      
+      .notification-title {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #2c3e50;
+      }
+      
+      .notification-message {
+        font-size: 14px;
+        color: #5a6c7d;
+        line-height: 1.5;
+        white-space: pre-line;
+      }
+      
+      .notification-close {
+        flex-shrink: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        color: #95a5a6;
+        font-size: 20px;
+        line-height: 1;
+        transition: color 0.2s;
+      }
+      
+      .notification-close:hover {
+        color: #2c3e50;
+      }
+      
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes slideOut {
+        to {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+      }
+      
+      .notification.closing {
+        animation: slideOut 0.3s ease-out forwards;
+      }
+      
+      @media (max-width: 768px) {
+        .notification-container {
+          left: 20px;
+          right: 20px;
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="page-contact" id="top">
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">
+          <img
+            class="brand-logo"
+            src="/assets/ll.PNG"
+            alt="Lakeside"
+            width="85"
+            height="85"
+            decoding="async"
+          />
+          <span class="brand-text">Lakeside Farms</span>
+        </a>
+        <nav class="main-nav" aria-label="Primary">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about" class="nav-link">About</a>
+          <a href="/services" class="nav-link">Services</a>
+          <a href="/news" class="nav-link">News</a>
+          <a href="/contact" class="nav-link active">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <button
+            class="icon-btn mobile-toggle"
+            aria-label="Toggle menu"
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+          >
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
+        <a href="/" class="mobile-nav-link">Home</a>
+        <a href="/about" class="mobile-nav-link">About</a>
+        <a href="/services" class="mobile-nav-link">Services</a>
+        <a href="/news" class="mobile-nav-link">News</a>
+        <a href="/contact" class="mobile-nav-link">Contact</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <!-- Hero Section -->
+      <section class="contact-hero">
+        <div class="container contact-hero-content">
+          <div class="breadcrumbs">
+            <a href="/">HOME</a>
+            <span>/</span>
+            <span>CONTACT</span>
+          </div>
+          <h1>Contact</h1>
+        </div>
+      </section>
+
+      <!-- Contact Info Cards -->
+      <section class="contact-info section">
+        <div class="container">
+          <div class="contact-info-grid">
+            <!-- About Card -->
+            <div class="contact-card contact-card-about">
+              <h3>About</h3>
+              <p>Lakeside Farms is your trusted partner in sustainable agriculture, specializing in crop farming, livestock and poultry production, and quality animal feed manufacturing from our Accra base.</p>
+            </div>
+
+            <!-- Contact Card -->
+            <div class="contact-card contact-card-contact">
+              <h3>Contact</h3>
+              <p class="contact-phone">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                +233 543 024 779 / +233 268 000 341
+              </p>
+              <p class="contact-email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                lakesidefarmgh@gmail.com
+              </p>
+              <p class="contact-hours">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Mon - Sat: 7:00 am - 6:00 pm
+              </p>
+            </div>
+
+            <!-- Address Card -->
+            <div class="contact-card contact-card-address">
+              <h3>Address</h3>
+              <p>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                P.O.BOX 236 Ofankor-Accra, Ghana
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Map and Form Section -->
+      <section class="contact-form-section section">
+        <div class="container">
+          <div class="contact-form-grid">
+            <!-- Interactive Map with Directions -->
+            <div class="contact-map-container">
+              <div class="map-search-box">
+                <h3>Get Directions to Lakeside Farms</h3>
+                {{#if hasBranches}}
+                <div class="branch-selector-group">
+                  <label for="branchSelect">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Select Branch:
+                  </label>
+                  <select id="branchSelect" aria-label="Select branch location">
+                    {{#each branches}}
+                      <option value="{{id}}" data-lat="{{latitude}}" data-lng="{{longitude}}" data-name="{{name}}" data-address="{{address}}">
+                        {{name}}
+                      </option>
+                    {{/each}}
+                  </select>
+                </div>
+                {{/if}}
+                <div class="map-search-input-group">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <input 
+                    type="text" 
+                    id="userLocation" 
+                    placeholder="Enter your location or address..."
+                    aria-label="Enter your location"
+                  />
+                  <button type="button" id="getDirectionsBtn" class="btn-directions">
+                    Get Directions
+                  </button>
+                </div>
+                <button type="button" id="useMyLocationBtn" class="btn-use-location">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  Use My Current Location
+                </button>
+              </div>
+              <div class="contact-map" id="map"></div>
+              <div class="map-info">
+                <p id="selectedBranchInfo"><strong>Selected Branch:</strong> <span id="branchName"></span> - <span id="branchAddress"></span></p>
+              </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper">
+              <div class="section-eyebrow">CONTACT US</div>
+              <h2>Write a Message</h2>
+              <form class="contact-form" id="contactForm">
+                <div class="form-row">
+                  <div class="form-group">
+                    <input type="text" name="name" placeholder="Name" required />
+                  </div>
+                  <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address" required />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <textarea name="message" placeholder="Write a Message" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send a Message</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Send Method Modal -->
+    <div class="send-modal" id="sendModal">
+      <div class="send-modal-overlay"></div>
+      <div class="send-modal-content">
+        <button class="send-modal-close" id="closeModal" aria-label="Close">&times;</button>
+        <div class="send-modal-header">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4a8f37" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
+          </svg>
+          <h3>Choose How to Send</h3>
+          <p>Select your preferred method to send your message</p>
+        </div>
+        <div class="send-modal-buttons">
+          <button class="send-option-btn send-email-btn" id="sendEmail">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Send via Email</span>
+          </button>
+          <button class="send-option-btn send-whatsapp-btn" id="sendWhatsApp">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+            <span>Send via WhatsApp</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img
+            src="/assets/ll.PNG"
+            alt="Lakeside"
+            width="180"
+            height="180"
+            loading="lazy"
+            decoding="async"
+          />
+          <p>Lakeside Farm Livestock</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <div class="footer-link-row">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/services">Services</a>
+            <a href="/news">News</a>
+          </div>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p>P.O.BOX 236 OFANKOR-ACCRA | +233543024779 / +233268000341</p>
+          <p>lakesidefarmgh@gmail.com | info@lakesidefarmgh.com</p>
+        </div>
+        <div class="footer-social">
+          <div class="socials">
+            {{#if socialMedia.facebook}}
+              <a href="{{socialMedia.facebook}}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.twitter}}
+              <a href="{{socialMedia.twitter}}" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.instagram}}
+              <a href="{{socialMedia.instagram}}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+            {{/if}}
+            {{#if socialMedia.linkedin}}
+              <a href="{{socialMedia.linkedin}}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+            {{/if}}
+          </div>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Email Address" aria-label="Email address" />
+            <button aria-label="Subscribe">
+              <img src="/assets/Group - 1/Link - icon.png" alt="" loading="lazy" decoding="async" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">
+          <p>© All Copyright 2020 by Lakeside</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle only (no scroll effect)
+      const mobileToggle = document.querySelector('.mobile-toggle');
+      const body = document.body;
+
+      // Mobile menu toggle
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', () => {
+          body.classList.toggle('nav-open');
+        });
+      }
+
+      // Close mobile menu on link click
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          body.classList.remove('nav-open');
+        });
+      });
+
+      // Contact form submission with Email/WhatsApp choice
+      const contactForm = document.getElementById('contactForm');
+      const sendModal = document.getElementById('sendModal');
+      const closeModal = document.getElementById('closeModal');
+      const sendEmailBtn = document.getElementById('sendEmail');
+      const sendWhatsAppBtn = document.getElementById('sendWhatsApp');
+      
+      let formDataCache = null;
+
+      // Lakeside Farms contact info
+      const lakesideEmail = 'lakesidefarmgh@gmail.com';
+      const lakesidePhone = '233543024779'; // WhatsApp number (country code + number, no + or spaces)
+
+      // Custom Notification System
+      function showNotification(title, message, type = 'success') {
+        const container = document.getElementById('notificationContainer');
+        
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        
+        const icons = {
+          success: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+          error: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>',
+          warning: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffa726" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
+          info: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#42a5f5" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
+        };
+        
+        notification.innerHTML = `
+          <div class="notification-icon">${icons[type] || icons.success}</div>
+          <div class="notification-content">
+            <div class="notification-title">${title}</div>
+            <div class="notification-message">${message}</div>
+          </div>
+          <button class="notification-close" onclick="this.parentElement.remove()">&times;</button>
+        `;
+        
+        container.appendChild(notification);
+        
+        // Auto remove after 6 seconds
+        setTimeout(() => {
+          notification.classList.add('closing');
+          setTimeout(() => notification.remove(), 300);
+        }, 6000);
+      }
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          const formData = new FormData(contactForm);
+          formDataCache = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            message: formData.get('message')
+          };
+
+          // Show modal for user to choose send method
+          sendModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      }
+
+      // Close modal
+      const closeModalFunction = () => {
+        sendModal.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+
+      closeModal.addEventListener('click', closeModalFunction);
+      sendModal.querySelector('.send-modal-overlay').addEventListener('click', closeModalFunction);
+
+      // Send via Email (Server-side)
+      sendEmailBtn.addEventListener('click', async () => {
+        if (formDataCache) {
+          try {
+            // Disable button and show loading state
+            sendEmailBtn.disabled = true;
+            sendEmailBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" opacity="0.25"></circle><path d="M12 2 A10 10 0 0 1 22 12" stroke-linecap="round"></path></svg><span>Sending...</span>';
+            sendEmailBtn.style.opacity = '0.6';
+
+            const response = await fetch('/contact', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(formDataCache),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+              // Show success message
+              showNotification('Message Sent Successfully!', result.message, 'success');
+              closeModalFunction();
+              contactForm.reset();
+              formDataCache = null;
+            } else {
+              // Show error
+              showNotification('Email Sending Failed', result.message + '\n\nTip: You can try sending via WhatsApp using the button above.', 'error');
+            }
+          } catch (error) {
+            // Network error
+            showNotification('Connection Error', 'Unable to connect to the server. Please check your internet connection or try sending via WhatsApp.', 'error');
+          } finally {
+            // Reset button state
+            sendEmailBtn.disabled = false;
+            sendEmailBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg><span>Send via Email</span>';
+            sendEmailBtn.style.opacity = '1';
+          }
+        }
+      });
+
+      // Send via WhatsApp
+      sendWhatsAppBtn.addEventListener('click', () => {
+        if (formDataCache) {
+          const whatsappMessage = encodeURIComponent(
+            `*Contact from Website*\n\n` +
+            `*Name:* ${formDataCache.name}\n` +
+            `*Email:* ${formDataCache.email}\n\n` +
+            `*Message:*\n${formDataCache.message}`
+          );
+          
+          window.open(`https://wa.me/${lakesidePhone}?text=${whatsappMessage}`, '_blank');
+          
+          closeModalFunction();
+          contactForm.reset();
+          formDataCache = null;
+        }
+      });
+
+      // Google Maps Integration with Directions
+      let map;
+      let directionsService;
+      let directionsRenderer;
+      let branches = [];
+      let branchMarkers = [];
+      let selectedBranch = null;
+
+      // Load branches data from server
+      {{#if hasBranches}}
+      branches = [
+        {{#each branches}}
+        {
+          id: {{id}},
+          name: "{{name}}",
+          address: "{{address}}",
+          lat: {{latitude}},
+          lng: {{longitude}}
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+      ];
+      {{/if}}
+
+      function initMap() {
+        // Set initial selected branch (first one by default)
+        if (branches.length > 0) {
+          selectedBranch = branches[0];
+          updateSelectedBranchInfo();
+        }
+
+        // Initialize map centered on first branch or default location
+        const center = selectedBranch ? { lat: selectedBranch.lat, lng: selectedBranch.lng } : { lat: 5.6809, lng: -0.2420 };
+        
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: center,
+          zoom: branches.length > 1 ? 7 : 14, // Zoom out if multiple branches
+          styles: [
+            {
+              featureType: 'poi',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }]
+            }
+          ]
+        });
+
+        // Add markers for all branches
+        branches.forEach((branch, index) => {
+          const marker = new google.maps.Marker({
+            position: { lat: branch.lat, lng: branch.lng },
+            map: map,
+            title: branch.name,
+            icon: {
+              url: index === 0 ? 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' : 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+            }
+          });
+
+          const infoWindow = new google.maps.InfoWindow({
+            content: `<div style="padding: 8px;"><strong>${branch.name}</strong><br>${branch.address}</div>`
+          });
+
+          marker.addListener('click', () => {
+            infoWindow.open(map, marker);
+            // Update branch selection when marker is clicked
+            const branchSelect = document.getElementById('branchSelect');
+            if (branchSelect) {
+              branchSelect.value = branch.id;
+              updateSelectedBranch();
+            }
+          });
+
+          branchMarkers.push({ marker, infoWindow, branch });
+        });
+
+        // Initialize directions service and renderer
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({
+          map: map,
+          suppressMarkers: false
+        });
+
+        // Autocomplete for location input
+        const input = document.getElementById('userLocation');
+        const autocomplete = new google.maps.places.Autocomplete(input, {
+          componentRestrictions: { country: 'gh' }, // Restrict to Ghana
+          fields: ['geometry', 'name']
+        });
+
+        // Branch selector change handler
+        const branchSelect = document.getElementById('branchSelect');
+        if (branchSelect) {
+          branchSelect.addEventListener('change', updateSelectedBranch);
+        }
+      }
+
+      function updateSelectedBranch() {
+        const branchSelect = document.getElementById('branchSelect');
+        const selectedOption = branchSelect.options[branchSelect.selectedIndex];
+        const branchId = parseInt(selectedOption.value);
+        
+        selectedBranch = branches.find(b => b.id === branchId);
+        updateSelectedBranchInfo();
+        
+        // Update marker colors
+        branchMarkers.forEach(({ marker, branch }) => {
+          marker.setIcon({
+            url: branch.id === branchId ? 
+              'http://maps.google.com/mapfiles/ms/icons/green-dot.png' : 
+              'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+          });
+        });
+
+        // Center map on selected branch
+        if (selectedBranch) {
+          map.panTo({ lat: selectedBranch.lat, lng: selectedBranch.lng });
+          map.setZoom(14);
+        }
+
+        // Clear any existing directions
+        if (directionsRenderer) {
+          directionsRenderer.setDirections({ routes: [] });
+        }
+      }
+
+      function updateSelectedBranchInfo() {
+        const branchNameEl = document.getElementById('branchName');
+        const branchAddressEl = document.getElementById('branchAddress');
+        
+        if (branchNameEl && branchAddressEl && selectedBranch) {
+          branchNameEl.textContent = selectedBranch.name;
+          branchAddressEl.textContent = selectedBranch.address;
+        }
+      }
+
+      // Get directions from user location to selected branch
+      function calculateAndDisplayRoute(origin) {
+        if (!selectedBranch) {
+          showNotification('No Branch Selected', 'Please select a branch location first.', 'warning');
+          return;
+        }
+
+        const request = {
+          origin: origin,
+          destination: { lat: selectedBranch.lat, lng: selectedBranch.lng },
+          travelMode: google.maps.TravelMode.DRIVING
+        };
+
+        directionsService.route(request, (result, status) => {
+          if (status === 'OK') {
+            directionsRenderer.setDirections(result);
+            
+            // Show distance and duration with styled message
+            const route = result.routes[0].legs[0];
+            const branchName = selectedBranch ? selectedBranch.name : 'Lakeside Farms';
+            const message = `Destination: ${branchName}\n\nDistance: ${route.distance.text}\nEstimated Travel Time: ${route.duration.text}\n\nFollow the route shown on the map above. Safe travels!`;
+            showNotification('Route Found!', message, 'success');
+          } else {
+            let errorTitle = 'Route Not Found';
+            let errorMessage = '';
+            
+            if (status === 'ZERO_RESULTS') {
+              errorMessage = 'No route found. Please check your location and try again.\n\nNeed help? Call us: +233 543 024 779';
+            } else if (status === 'NOT_FOUND') {
+              errorMessage = 'Location not found. Please enter a valid address in Ghana.\n\nTip: Try entering a nearby landmark or city name.';
+            } else if (status === 'INVALID_REQUEST') {
+              errorMessage = 'Invalid location. Please enter your starting point in the search box above.';
+            } else {
+              errorMessage = 'Please try again or contact us for assistance:\n\nPhone: +233 543 024 779\nWhatsApp: +233 543 024 779';
+            }
+            
+            showNotification(errorTitle, errorMessage, 'error');
+          }
+        });
+      }
+
+      // Get Directions button handler
+      document.getElementById('getDirectionsBtn').addEventListener('click', () => {
+        const userLocation = document.getElementById('userLocation').value;
+        
+        if (!userLocation) {
+          showNotification('Location Required', 'Please enter your starting location in the search box above to get directions to Lakeside Farms.', 'warning');
+          return;
+        }
+
+        calculateAndDisplayRoute(userLocation);
+      });
+
+      // Use current location button handler
+      document.getElementById('useMyLocationBtn').addEventListener('click', () => {
+        if (navigator.geolocation) {
+          // Show loading state
+          const btn = document.getElementById('useMyLocationBtn');
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" opacity="0.25"></circle><path d="M12 2 A10 10 0 0 1 22 12"></path></svg> Getting your location...';
+          btn.disabled = true;
+          
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const userPos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              
+              calculateAndDisplayRoute(userPos);
+              document.getElementById('userLocation').value = '📍 Your Current Location';
+              
+              // Reset button
+              btn.innerHTML = originalText;
+              btn.disabled = false;
+            },
+            (error) => {
+              let errorTitle = 'Location Access Error';
+              let errorMsg = '';
+              
+              if (error.code === error.PERMISSION_DENIED) {
+                errorMsg = 'Please allow location access in your browser settings, or enter your location manually in the search box above.';
+              } else if (error.code === error.POSITION_UNAVAILABLE) {
+                errorMsg = 'Location information is unavailable. Please enter your address manually.';
+              } else if (error.code === error.TIMEOUT) {
+                errorMsg = 'Location request timed out. Please try again or enter your address manually.';
+              } else {
+                errorMsg = 'Unable to get your location. Please enter your address in the search box above.';
+              }
+              
+              showNotification(errorTitle, errorMsg, 'warning');
+              
+              // Reset button
+              btn.innerHTML = originalText;
+              btn.disabled = false;
+            }
+          );
+        } else {
+          showNotification('Geolocation Not Supported', 'Your browser doesn\'t support location services. Please enter your address manually in the search box above.', 'warning');
+        }
+      });
+
+      // Initialize map when Google Maps API is loaded
+      window.addEventListener('load', () => {
+        if (typeof google !== 'undefined') {
+          initMap();
+        }
+      });
+    </script>
+  </body>
+</html>
