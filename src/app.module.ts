@@ -45,7 +45,7 @@ import { BranchModule } from './branches/branch.module';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot(
-      process.env.DATABASE_URL
+      process.env.DATABASE_URL?.startsWith('postgres')
         ? {
             type: 'postgres',
             url: process.env.DATABASE_URL,
@@ -75,7 +75,7 @@ import { BranchModule } from './branches/branch.module';
           }
         : {
             type: 'sqlite',
-            database: process.env.DB_PATH ?? 'lakeside.sqlite',
+            database: process.env.DB_PATH || 'lakeside.sqlite',
             entities: [
               ContentEntity,
               AdminUserEntity,
