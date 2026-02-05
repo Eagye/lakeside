@@ -18,7 +18,13 @@ export class AdminAuthService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    await this.ensureDefaultAdmin();
+    console.log('🚀 AdminAuthService initializing...');
+    try {
+      await this.ensureDefaultAdmin();
+    } catch (error) {
+      console.error('❌ Failed to create default admin:', error);
+      throw error;
+    }
   }
 
   async validateCredentials(
