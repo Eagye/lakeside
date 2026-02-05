@@ -68,7 +68,7 @@ import { BranchModule } from './branches/branch.module';
         NewsImageEntity,
         BranchEntity,
       ],
-      synchronize: process.env.NODE_ENV !== 'production',
+      synchronize: true, // Enable auto-create tables
     }),
     ThrottlerModule.forRoot({
       throttlers: [{ ttl: 60, limit: 100 }],
