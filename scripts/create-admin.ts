@@ -2,11 +2,20 @@ import { DataSource } from 'typeorm';
 import { hash } from 'bcryptjs';
 
 async function createAdmin() {
+  const databaseUrl = process.env.DATABASE_URL;
+  
+  if (!databaseUrl) {
+    console.error('❌ DATABASE_URL environment variable is not set');
+    process.exit(1);
+  }
+  
+  console.log('Database URL format:', databaseUrl.split('@')[0] + '@...');
+  
   const dataSource = new DataSource({
     type: 'postgres',
-    url: process.env.DATABASE_URL,
+    url: databaseUrl,
     synchronize: false,
-    entities: ['src/**/*.entity.ts'],
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   });
 
   try {
